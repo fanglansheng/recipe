@@ -9,8 +9,16 @@ class Profile(models.Model):
     city = models.CharField(max_length = 20, blank = True)
     country = models.CharField(max_length = 20, blank = True)
     bio = models.CharField(max_length = 420, blank = True)
-    img = models.ImageField(upload_to="profile", default='profile/default_user.jpg', blank = True)
-    following = models.ManyToManyField(User, related_name = "following", blank=True, null=True)
+    img = models.ImageField(upload_to="profile",
+                            default='profile/default_user.jpg',
+                            blank = True)
+    following = models.ManyToManyField(User,
+                            related_name = "following", 
+                            blank=True, null=True)
+    saves = models.ManyToManyField(Recipe,
+                            related_name = "saves", 
+                            blank=True, null=True)
+    
     def __unicode__(self):
         return self.owner.username
 
@@ -19,24 +27,56 @@ class Work(models.Model):
     name = models.CharField(max_length = 100)
     date = models.DateTimeField(auto_now = True)
     bio = models.CharField(max_length = 1000)
-    img = models.ImageField(upload_to="recipe", default='recipe/default_recipe.jpg',blank = True)
+    img = models.ImageField(upload_to="recipe", blank = True)
     def __unicode__(self):
         return self.user.username
 
 class Recipe(models.Model):
-    work = models.ForeignKey(Work)
+    user = models.ForeignKey(User)
+    name = models.CharField(max_length = 100)
+    date = models.DateTimeField(auto_now = True)
+    bio = models.CharField(max_length = 1000)
+    img = models.ImageField(upload_to="recipe",
+                            default='recipe/default_recipe.jpg',
+                            blank = True)
+    ingredients = models.ManyToManyField(Ingredient, 
+                            related_name = "ingredient", 
+                            blank=True, null=True)
+    steps = models.ManyToManyField(Step,
+                            related_name = "step", 
+                            blank=True, null=True)
+    likes = models.ForeignKey(Work)
     def __unicode__(self):
         return self.work.name
 
 class Step(models.Model):
     recipe = models.ForeignKey(Recipe)
+    order = models.IntegerField()
     text = models.TextField(max_length = 1000)
     img = models.ImageField(upload_to="recipe/step" ,blank = True)
 
 
-class Comments(models.Model):
+class Ingredient(models.Model):
+    name = models.CharField(max_length = 100)
+    quantity = models.CharField(max_length = 50)
+    def __unicode__(self):
+        return self.name
+
+# comments for work
+class WorkComments(models.Model):
     user = models.ForeignKey(User)
-    
+    work = models.ForeignKey(Work)
+    content = models.CharField(max_length=100)
+    date = models.DateTimeField(auto_now = True)
+    deleted = models.BooleanField(default=False)
+
+    def __unicode__(self):
+        return "%s: %s" % (self.user, self.content)
+
+# comments for recipe
+class RecipeComments(models.Model):
+    user = models.ForeignKey(User)
+    recipe = models.ForeignKey(Recipe)
     content = models.CharField(max_length=100)
     date = models.DateTimeField(auto_now = True)
     deleted = models.BooleanField(default=False)
