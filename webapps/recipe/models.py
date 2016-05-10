@@ -18,7 +18,12 @@ class Profile(models.Model):
     saves = models.ManyToManyField(Recipe,
                             related_name = "saves", 
                             blank=True, null=True)
-    
+    # return a list of user's works
+    def get_user_works(self):  
+        return self.work_set.all()
+    def get_user_recipe(self):
+        return self.recipe_set.all()
+        
     def __unicode__(self):
         return self.owner.username
 
@@ -51,16 +56,18 @@ class Recipe(models.Model):
 
 class Step(models.Model):
     recipe = models.ForeignKey(Recipe)
-    order = models.IntegerField()
+    order = models.IntegerField()               # do we need this?
     text = models.TextField(max_length = 1000)
     img = models.ImageField(upload_to="recipe/step" ,blank = True)
 
 
+#???
 class Ingredient(models.Model):
+    recipe = models.ForeignKey(Recipe)
     name = models.CharField(max_length = 100)
     quantity = models.CharField(max_length = 50)
     def __unicode__(self):
-        return self.name
+        return "%s: %s" % (self.name, self.quantity)
 
 # comments for work
 class WorkComments(models.Model):
