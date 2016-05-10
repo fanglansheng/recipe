@@ -19,11 +19,11 @@ class Profile(models.Model):
                             related_name = "saves", 
                             blank=True, null=True)
     # return a list of user's works
-    def get_user_works(self):  
+    def get_user_works(self):
         return self.work_set.all()
     def get_user_recipe(self):
         return self.recipe_set.all()
-        
+
     def __unicode__(self):
         return self.owner.username
 
@@ -33,6 +33,13 @@ class Work(models.Model):
     date = models.DateTimeField(auto_now = True)
     bio = models.CharField(max_length = 1000)
     img = models.ImageField(upload_to="recipe", blank = True)
+    like = models.ManyToManyField(User,
+                            related_name = "liked_work", 
+                            blank=True, null=True)
+    # check
+    recipe = models.ForeignKey(Recipe,
+                            related_name = "recipe", 
+                            blank=True, null=True)
     def __unicode__(self):
         return self.user.username
 
@@ -44,13 +51,6 @@ class Recipe(models.Model):
     img = models.ImageField(upload_to="recipe",
                             default='recipe/default_recipe.jpg',
                             blank = True)
-    ingredients = models.ManyToManyField(Ingredient, 
-                            related_name = "ingredient", 
-                            blank=True, null=True)
-    steps = models.ManyToManyField(Step,
-                            related_name = "step", 
-                            blank=True, null=True)
-    likes = models.ForeignKey(Work)
     def __unicode__(self):
         return self.work.name
 
@@ -58,7 +58,7 @@ class Step(models.Model):
     recipe = models.ForeignKey(Recipe)
     order = models.IntegerField()               # do we need this?
     text = models.TextField(max_length = 1000)
-    img = models.ImageField(upload_to="recipe/step" ,blank = True)
+    img = models.ImageField(upload_to="recipe/step", blank = True)
 
 
 #???
