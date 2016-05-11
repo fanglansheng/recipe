@@ -33,12 +33,12 @@ class RegistrationForm(UserCreationForm):
                                   'class': 'form-control',
                                   'placeholder': 'Username'
                               }))
-    email = forms.EmailField(max_length=152,
-                              label='Email',
-                              widget=forms.TextInput(attrs={
-                                  'class': 'form-control',
-                                  'placeholder': 'Email'
-                              }))
+    #email = forms.EmailField(max_length=152,
+    #                          label='Email',
+    #                          widget=forms.TextInput(attrs={
+    #                              'class': 'form-control',
+    #                              'placeholder': 'Email'
+    #                          }))
     password1 = forms.CharField(max_length=20,
                               label='Password',
                               widget=forms.PasswordInput(attrs={
@@ -51,6 +51,18 @@ class RegistrationForm(UserCreationForm):
                                   'class': 'form-control',
                                   'placeholder': 'Confirm Password'
                               }))
+    def clean(self):
+        cleaned_data = super(RegistrationForm, self).clean()
+        password1 = cleaned_data.get('password1')
+        password2 = cleaned_data.get('password2')
+        if password1 and password2 and password1 != password2:
+            raise forms.ValidationError("Passwords did not match.")
+        return cleaned_data
+    def clean_username(self):
+        username = self.cleaned_data.get('username')
+        if User.objects.filter(username__exact=username):
+            raise forms.ValidationError("Username is already taken.")
+        return username
 
     class Meta:
         model = User

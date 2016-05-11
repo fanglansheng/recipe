@@ -53,6 +53,9 @@ MIDDLEWARE_CLASSES = (
 
 ROOT_URLCONF = 'webapps.urls'
 
+LOGIN_URL='/recipe/login'
+LOGIN_REDIRECT_URL='/recipe/'
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
