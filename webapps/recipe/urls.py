@@ -19,7 +19,8 @@ from django.contrib import admin
 urlpatterns = [
     # url(r'^admin/', include(admin.site.urls)),
     url(r'^$', 'recipe.views_home.home', name='home'),
+	url(r'^home', 'recipe.views.home', name='hometry'),
 	url(r'^login$', 'django.contrib.auth.views_home.login', {'template_name':'login.html'},name='login'),
-    url(r'^logout$', 'django.contrib.auth.views_home.logout_then_login',name='logout'),
-    url(r'^register$', 'recipe.views_home.register',name='register'),
+    url(r'^logout$', 'django.contrib.auth.views.logout_then_login',name='logout'),
+    url(r'^register$', 'recipe.views.register',name='register'),
 ]

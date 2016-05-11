@@ -74,3 +74,26 @@ class RegistrationForm(UserCreationForm):
                                         email=self.cleaned_data['email'])
         user.save()
         return user
+
+
+class CreateWorkForm(forms.ModelForm): 
+    class Meta:
+        model = Work
+        fields = ['bio', 'img']
+        # widgets = {
+        #     'bio':Textarea(attrs={'form':"postform",
+        #                         'class':"post-input",
+        #                         'id': "post-text-area",
+        #                         'maxlengt':"42",
+        #                         'placeholder':"What "}),
+        # }
+        # error_messages={
+        #     'text':{
+        #         'required':"You should write something before post!",
+        #         'max_length':"More than 42 words!",
+        #     },
+        #     'owner':{
+        #         'required':"You should specify a user!",
+        #     },
+        # }
+
