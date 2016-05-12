@@ -8,6 +8,7 @@ from django.http import HttpResponse, Http404
 from mimetypes import guess_type
 from django.core import serializers
 from django.http import HttpResponse
+from django.contrib.auth import login, authenticate, logout
 import json
 from datetime import datetime
 
@@ -16,9 +17,9 @@ from recipe.forms import *
 
 @login_required
 def home(request):
-	context={};
-	return render(request, 'wanyan/home.html', context);
-	
+    context={};
+    return render(request, 'wanyan/home.html', context);
+    
 
 @transaction.atomic
 def register(request):
@@ -50,3 +51,24 @@ def register(request):
     login(request, new_user)
     context={}
     return redirect(reverse('hometry'))
+
+def loginSelf(request):
+    #this is the method to login
+    context = {}
+    context['registerform'] = RegistrationForm()
+    if request.method == 'GET':
+        return render(request, 'wanyan/login.html', context)
+
+    username = request.POST.get('username')
+    password = request.POST.get('password')
+    user = authenticate(username = username, password = password)
+    if user is not None:
+        if user.is_active:
+           login(request, user)
+           return redirect('hometry')
+    context['error1'] = "sorry, you are not a merchant"
+    return render(request, 'wanyan/login.html', context)
+
+def logoutSelf(reqeust):
+    logout(reqeust)
+    return redirect('login')
