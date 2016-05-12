@@ -9,3 +9,8 @@ def home(request):
     context = {}
     context['work_form'] = CreateWorkForm()
     return render(request, 'recipe/index.html', context)
+
+def add_work(request):
+    context = {}
+    context['work_form'] = CreateWorkForm()
+    return render(request, 'recipe/index.html', context)

@@ -14,13 +14,16 @@ Including another URLconf
     2. Add a URL to urlpatterns:  url(r'^blog/', include(blog_urls))
 """
 from django.conf.urls import include, url
-from django.contrib import admin
+from django.contrib import admin, auth
+import recipe.views_home
+import recipe.views
 
 urlpatterns = [
     # url(r'^admin/', include(admin.site.urls)),
-    url(r'^$', 'recipe.views_home.home', name='home'),
-	url(r'^home', 'recipe.views.home', name='hometry'),
-	url(r'^login$', 'django.contrib.auth.views_home.login', {'template_name':'login.html'},name='login'),
-    url(r'^logout$', 'django.contrib.auth.views.logout_then_login',name='logout'),
-    url(r'^register$', 'recipe.views.register',name='register'),
+    url(r'^$', recipe.views_home.home),
+    url(r'^post_work$', recipe.views_home.add_work, name='add_work'),
+	url(r'^home', recipe.views.home, name='hometry'),
+	# url(r'^login$', django.contrib.auth.views_home.login, {'template_name':'login.html'},name='login'),
+ #    url(r'^logout$', django.contrib.auth.views.logout_then_login ,name='logout'),
+    url(r'^register$', recipe.views.register,name='register'),
 ]
