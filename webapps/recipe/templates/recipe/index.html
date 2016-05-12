@@ -10,10 +10,13 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.3.5/marked.min.js"></script>
   </head>
   <body>
+    <p><a href="{% url 'login' %}">Login</a></p>
+    <p><a href="{% url 'register' %}">Register</a></p>
     <div>
-      <form action="add_work" method="post">
-      {{ work_form }}
-      {% csrf_token %}
+      <form action={% url 'add_work' %} method="post">
+        {{ work_form }}
+        {% csrf_token %}
+        <input  type="submit" value="Share" />
       </form>
     </div>
     <div id="content"></div>
