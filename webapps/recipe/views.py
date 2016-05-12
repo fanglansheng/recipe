@@ -17,7 +17,7 @@ from recipe.forms import *
 @login_required
 def home(request):
 	context={};
-	return render(request, 'home.html', context);
+	return render(request, 'wanyan/home.html', context);
 	
 
 @transaction.atomic
@@ -27,7 +27,7 @@ def register(request):
     # Just display the registration form if this is a GET request.
     if request.method == 'GET':
         context['registerform'] = RegistrationForm()
-        return render(request, 'login.html', context)
+        return render(request, 'wanyan/login.html', context)
 
     # Creates a bound form from the request POST parameters and makes the 
     # form available in the request context dictionary.
@@ -36,7 +36,7 @@ def register(request):
 
     # Validates the form.
     if not registerform.is_valid():
-        return render(request, 'login.html', context)
+        return render(request, 'wanyan/login.html', context)
 
     # At this point, the form data is valid.  Register and login the user.
     new_user = User.objects.create_user(username=registerform.cleaned_data['username'], 
@@ -49,4 +49,4 @@ def register(request):
                             password=registerform.cleaned_data['password1'])
     login(request, new_user)
     context={}
-    return redirect(reverse('home'))
+    return redirect(reverse('hometry'))

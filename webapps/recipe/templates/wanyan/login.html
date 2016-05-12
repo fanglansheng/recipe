@@ -1,0 +1,50 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>login & register</title>
+    <meta charset="utf-8" />
+    <!--<link rel="stylesheet" href="/static/login.css" />-->
+</head>
+<body>
+    {% if form.errors %}
+    <p style="color:red">
+        Incorrect user name and password.
+    </p>
+    {% endif %}
+
+    {% for error in errors %}
+    <p style="color: red">
+        {{ error }}
+    </p>
+    {% endfor %}
+
+    <h1>SIGN UP</h1>
+    <form action="{% url 'register' %}" method="post">
+        {% for field in registerform.visible_fields %}
+        <p>{{field.label_tag}}</p>
+        <div class="username">{{field}}</div> <!--class="password"-->
+        {% for error in field.errors %}
+        <span style="color:red"> {{ error }} </span>
+        {% endfor %}
+        <br>
+        {% endfor %}
+        <input  type="submit" value="SIGN UP" />
+        {% for field in registerform.hidden_fields %}
+        {{field}}
+        {% endfor %}
+        {% csrf_token %}
+    </form>
+
+    <h1>LOG IN</h1>
+    <form method="post" action="{% url 'django.contrib.auth.views.login' %}">
+        <p>{{ form.username.label_tag }}</p>
+        <label class="username">{{form.username}}</label>
+        <p>{{ form.password.label_tag }}</p>
+        <label class="password">{{form.password}}</label><br />
+        <input type="submit" value="LOGIN" />
+        {% csrf_token %}
+    </form>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+</body>
+</html>
