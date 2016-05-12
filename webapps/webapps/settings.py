@@ -53,8 +53,8 @@ MIDDLEWARE_CLASSES = (
 
 ROOT_URLCONF = 'webapps.urls'
 
-LOGIN_URL='/recipe/login'
-LOGIN_REDIRECT_URL='/recipe/'
+LOGIN_URL='/login'
+LOGIN_REDIRECT_URL='/home'
 
 TEMPLATES = [
     {
@@ -101,10 +101,8 @@ USE_TZ = True
 
 # Used by the authentication system for the recipe application.
 # URL to use if the authentication system requires a user to log in.
-LOGIN_URL = '/recipe/home-login'
 
 # Default URL to redirect to after a user logs in.
-LOGIN_REDIRECT_URL = '/recipe/'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
