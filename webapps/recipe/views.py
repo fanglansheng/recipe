@@ -54,6 +54,7 @@ def register(request):
 
 def loginSelf(request):
     #this is the method to login
+    print (User.objects.all())
     context = {}
     context['registerform'] = RegistrationForm()
     if request.method == 'GET':
@@ -62,6 +63,8 @@ def loginSelf(request):
     username = request.POST.get('username')
     password = request.POST.get('password')
     user = authenticate(username = username, password = password)
+    print (username, password)
+
     if user is not None:
         if user.is_active:
            login(request, user)
