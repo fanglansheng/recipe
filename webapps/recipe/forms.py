@@ -97,3 +97,15 @@ class CreateWorkForm(forms.ModelForm):
         #     },
         # }
 
+class recipeForm(forms.ModelForm):
+    class Meta:
+        model=Recipe
+        exclude=('user','date',)
+        widgets={'picture':forms.FileInput()}
+
+class stepForm(forms.ModelForm):
+    class Meta:
+        model=Step
+        exclude=('recipe',)
+        widgets={'picture':forms.FileInput()}
+

@@ -69,6 +69,49 @@ def loginSelf(request):
     context['error1'] = "sorry, you are not a merchant"
     return render(request, 'wanyan/login.html', context)
 
-def logoutSelf(reqeust):
-    logout(reqeust)
+def logoutSelf(request):
+    logout(request)
     return redirect('login')
+
+def create_recipe(request):
+    context={}
+    print(request.POST)
+    if request.method=="Get":
+        context['recipeForm']=recipeForm()
+        context['stepForm']=stepForm()
+        return render(request, 'wanyan/createRecipe.html', context)
+    
+    entry = Recipe(user=request.user,date=datetime.now())
+    form = recipeForm(request.POST,request.FILES, instance=entry,prefix="recipeForm")
+
+    if not form.is_valid():
+        context['stepForm']=stepForm()
+        context['recipeForm']=recipeForm()
+        return render(request, 'wanyan/createRecipe.html', context)
+   
+    # Save the new record
+    form.save()
+
+    #not validate
+    #for ingredients:
+    ingredients=request.POST.getlist('ingname')
+    quantities=request.POST.getlist('quantity')
+    i=0;
+    while i<len(ingredients):
+        newIngre=Ingredient(recipe=entry,name=ingredients[i],quantity=quantities[i]);
+        newIngre.save();
+        i=i+1;
+    #steps
+    #step = Step(recipe=entry)
+    #stepForm = profileform(request.POST, request.FILES, instance=entry)
+    step = Step(recipe=entry)
+    #stepForm = stepForm(request.POST, request.FILES, instance=step,prefix="stepForm")
+    #if not stepForm.is_valid():
+    #    context['recipeForm']=recipeForm();
+    #    context['stepForm']=stepForm();
+    #    return render(request, 'wanyan/createRecipe.html', context)
+   
+    ## Save the new record
+    #stepForm.save()
+
+    return redirect(reverse('hometry'))

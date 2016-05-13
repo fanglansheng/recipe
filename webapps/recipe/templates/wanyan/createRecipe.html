@@ -1,0 +1,44 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+	<meta charset="utf-8" />
+</head>
+<body>
+        <h1>Recipe</h1>
+        <form enctype="multipart/form-data" action="{% url 'create_recipe' %}" method="post">
+            {% for field in recipeForm.visible_fields %}
+            <p>{{field.label_tag}}</p>
+            <label >{{field}}</label>
+            {% for error in field.errors %}
+            <span style="color:red"> {{ error }} </span>
+            {% endfor %}
+            <br>
+            {% endfor %}
+            {% for field in form.hidden_fields %}
+            {{field}}
+            {% endfor %}
+            <h1>ingredients:</h1>
+            <input name="ingname" type="text" placeholder="ingname1" />
+            <input name="quantity" type="text" placeholder="quantity1" />
+            <input name="ingname" type="text" placeholder="ingname2" />
+            <input name="quantity" type="text" placeholder="quantity2" />
+            <input type="submit" value="GO">
+
+            <h1>steps</h1>
+            {% for stepfield in stepForm.visible_fields %}
+            <p>{{stepfield.label_tag}}</p>
+            <label>{{stepfield}}</label>
+            {% for error in field.errors %}
+            <span style="color:red"> {{ error }} </span>
+            {% endfor %}
+            <br>
+            {% endfor %}
+            {% for field in form.hidden_fields %}
+            {{stepfield}}
+            {% endfor %}
+
+            {% csrf_token %}
+        </form>
+</body>
+</html>

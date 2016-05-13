@@ -11,14 +11,17 @@ class Recipe(models.Model):
     img = models.ImageField(upload_to="recipe",
                             default='recipe/default_recipe.jpg',
                             blank = True)
+
     def __unicode__(self):
-        return self.work.name
+        return self.name
 
 class Step(models.Model):
     recipe = models.ForeignKey(Recipe)
     order = models.IntegerField()               # do we need this?
     text = models.TextField(max_length = 1000)
     img = models.ImageField(upload_to="recipe/step", blank = True)
+    def __unicode__(self):
+        return self.recipe.name
 
 #???
 class Ingredient(models.Model):
