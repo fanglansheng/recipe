@@ -23,11 +23,12 @@ def home(request):
         # context['user_works'] = Work.get_user_work(request.user)
     
     context['all_recipes'] = Recipe.objects.all()
-    
+    print("--",request.user)
     return render(request, 'recipe/index.html', context)
 
 @login_required
 def get_works(request):
+    print("--")
     dic = {}
     maxCount = WorkLog.get_max_id()
     works = Work.objects.filter(Q(deleted=False), 
@@ -35,9 +36,11 @@ def get_works(request):
         .order_by('-date').distinct()
     dic['works'] = [e.as_json() for e in works]
     dic['maxCount'] = maxCount
+
     data = json.dumps(dic)
     
     return HttpResponse(data, content_type='application/json')
+
 
 # get the work's photo by work_id
 @login_required
