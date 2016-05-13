@@ -1,8 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm, PasswordChangeForm, PasswordResetForm
-
+from django.forms import ModelForm, Textarea
 from recipe.models import *
-
 from mimetypes import guess_type
 
 
@@ -80,20 +79,26 @@ class CreateWorkForm(forms.ModelForm):
     class Meta:
         model = Work
         fields = ['bio', 'img']
-        # widgets = {
-        #     'bio':Textarea(attrs={'form':"postform",
-        #                         'class':"post-input",
-        #                         'id': "post-text-area",
-        #                         'maxlengt':"42",
-        #                         'placeholder':"What "}),
-        # }
-        # error_messages={
-        #     'text':{
-        #         'required':"You should write something before post!",
-        #         'max_length':"More than 42 words!",
-        #     },
-        #     'owner':{
-        #         'required':"You should specify a user!",
-        #     },
-        # }
+        widgets = {
+            'bio':Textarea(attrs={'form':"postform",
+                                'class':"post-input",
+                                'id': "workform-text",
+                                'maxlengt':"1000",
+                                'placeholder':"What did you cook?"}),
+        }
+        error_css_class = 'error'
+        required_css_class = 'required'
+        error_messages={
+            'bio':{
+                'max_length':"Oops. You typed more than 1000 characters!",
+            },
+            'img':{
+                'required':"At least post one picture!",
+                'invalid':"Oops! The type is invalid.",
+            },
+        }
+    def clean(self):
 
+        cleaned_data = super(CreateWorkForm, self).clean()
+        print("--------",cleaned_data);
+        return cleaned_data

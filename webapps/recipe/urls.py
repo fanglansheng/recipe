@@ -22,16 +22,15 @@ import recipe.views
 urlpatterns = [
     # url(r'^admin/', include(admin.site.urls)),
     url(r'^$', recipe.views_home.home),
+    # works operations:
     url(r'^post_work$', recipe.views_home.add_work, name='add_work'),
-	url(r'^home', recipe.views.home, name='hometry'),
-    url(r'^login$', django.contrib.auth.views.login, {'template_name':'wanyan/login.html'},name='login'),
-    url(r'^logout$', django.contrib.auth.views.logout_then_login ,name='logout'),
-    url(r'^register$', recipe.views.register,name='register'),
+    url(r'^get_work_img/(?P<work_id>[0-9]+)$', recipe.views_home.get_work_photo, name='work_img'),
+    url(r'^get_all_works$', recipe.views_home.get_works, name='all_works'),
+    url(r'^get_work_changes/(?P<maxEntry>\d+)$', recipe.views_home.get_work_changes, name='work_changes'),
 
- #    url(r'^$', 'recipe.views_home.home', name='home'),
-	# url(r'^home', 'recipe.views.home', name='hometry'),
-	# url(r'^login$', 'django.contrib.auth.views.login', {'template_name':'wanyan/login.html'},name='login'),
-    # url(r'^logout$', 'django.contrib.auth.views.logout_then_login',name='logout'),
- #    url(r'^register$', 'recipe.views.register',name='register'),
+    url(r'^home', recipe.views.home, name='hometry'),
+    url(r'^login$', recipe.views.loginSelf,  name = 'login'),
+    url(r'^logout$', recipe.views.logoutSelf, name = 'logout'),
+    url(r'^register$', recipe.views.register,name='register'),
 
 ]

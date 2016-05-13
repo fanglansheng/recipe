@@ -8,17 +8,36 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.23/browser.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.3.5/marked.min.js"></script>
+
   </head>
   <body>
     <p><a href="{% url 'login' %}">Login</a></p>
     <p><a href="{% url 'register' %}">Register</a></p>
-    <div>
-      <form action={% url 'add_work' %} method="post">
+
+    <div id="formdiv">
+      <!-- id is used for ajax -->
+      <form enctype="multipart/form-data" action={% url 'add_work' %} method="post" id="workform">
+        <table>
         {{ work_form }}
+        </table>
         {% csrf_token %}
-        <input  type="submit" value="Share" />
+        <input id="submit-work" type="submit" value="Share" />
       </form>
     </div>
+
+    {% if user %}
+      <div id="works-list">
+        {% for work in user_works %}
+          <p> {{work.user.username}} : {{work.bio}}  </p>
+          <img src="{% url 'work_img' work.id %}"/>
+        {% endfor %}
+      </div>
+    {% endif %}
+
+
+
+
+
     <div id="content"></div>
     <!-- <script type="text/babel" src="/static/recipe/js/example.js"></script> -->
     <script type="text/babel">
@@ -91,5 +110,6 @@
         document.getElementById('content')
       );
     </script>
+    <script src="/static/recipe/js/works.js" type="text/javascript"></script>
   </body>
 </html>
