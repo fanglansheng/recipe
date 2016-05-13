@@ -48,22 +48,49 @@ function populateWorkList() {
         var workList = $("#works-list");
         // store wrok data from json to workList element
         workList.data('maxCount', data['maxCount']);
-        console.log(data['maxCount']);
         // empty the current workList content to create new wroks.
         // workList.html('');
         // create new wrok
-        // for (var i = 0; i < data.works.length; i++) {
-        //     // parse json string data to object that can used easily
-        //     var work = JSON.parse(data.works[i]);
-        //     var new_item = $("<p>").append(work['fields'].bio);
-        //     var item_id = work.pk;
-        //     var new_img = $('<img>').attr('src', "/get_work_img/"+item_id);
-        //     workList.append(new_item);
-        //     workList.append(new_img);
-        //     // $('#'+post.postId+' .comment-post').data("postId",post.postId);
-        // }
-
+        for (var i = 0; i < data.works.length; i++) {
+            // parse json string data to object that can used easily
+            var work = JSON.parse(data.works[i]);
+            var new_item = $("<p>").append(work['fields'].bio);
+            var item_id = work.pk;
+            var new_img = $('<img>').attr('src', "/get_work_img/"+item_id);
+            var delete_btn = $('<a>').attr('href', "/delete_work/"+item_id);
+            delete_btn.append("delete");
+            delete_btn.data('work_id', item_id);
+            delete_btn.click(function(ev){
+                ev.preventDefault();
+                deleteWork(ev.target);
+            });
+            workList.append(delete_btn);
+            workList.append(new_item);
+            workList.append(new_img);
+            // $('#'+post.postId+' .comment-post').data("postId",post.postId);
+        }
     });
+}
+
+function deleteWork(obj){
+    workId = obj.data("work_id");
+    $.get("/delete_work/"+workId)
+    .done(function(data) {
+        var workList = $("#works-list");
+        if(data.type == "error"){
+        }
+        else{
+            // remove the item from worklist
+        }
+        
+    }); 
+
+    // var id = $(event.target).parent().data("item-id");
+    // $.post("/shared-todo-list/delete-item/" + id)
+    //   .done(function(data) {
+    //       getUpdates();
+    //       $("#item-field").val("").focus()
+    //   });
 }
 
 function updateWorkList(){

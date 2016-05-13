@@ -1,9 +1,9 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.db.models import Q
 from django.db.models import Max
 from django.core import serializers
 import json
-from django.forms.models import model_to_dict
 
 # Create your models here.
 class Recipe(models.Model):
@@ -17,6 +17,14 @@ class Recipe(models.Model):
 
     def __unicode__(self):
         return self.name
+    def as_json(self):
+        arr = serializers.serialize('json',[self])
+        # get rid of [], because serialize only works for list, and serialize()
+        # is stupid
+        return arr[1:-1]
+    # @staticmethod
+    # def get_hot_recipes():
+    #     return Recipe.objects.all().order_by('saves','headline')
 
 class Step(models.Model):
     recipe = models.ForeignKey(Recipe)
@@ -50,16 +58,21 @@ class Work(models.Model):
 
     def as_json(self):
         arr = serializers.serialize('json',[self])
-        return arr[1:-1] # get rid of [], because serialize only works for list
+        # get rid of [], because serialize only works for list, and serialize()
+        # is stupid
+        return arr[1:-1]
 
     @staticmethod
     def get_user_work(user):        
         return Work.objects.filter(deleted=False,
                     user=user).order_by('-date').distinct()
+
+    # Returns all following works and personal works that shows in works stream.
     @staticmethod
-    def get_following_work(user):        
-        return Work.objects.filter(deleted=False,
-            user__profile__following=user).order_by('-date').distinct()
+    def get_friends_work(user):        
+        return Work.objects.filter(Q(deleted=False), 
+            Q(user=user) | Q(user__profile__following=user))\
+            .order_by('-date').distinct()
 
     # Returns all recent additions and deletions to the work list.
     @staticmethod

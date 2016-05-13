@@ -9,7 +9,6 @@ from mimetypes import guess_type
 from django.core import serializers
 from django.http import HttpResponse
 from datetime import datetime
-from django.db.models import Q
 from recipe.models import *
 from recipe.forms import * 
 import json
@@ -23,20 +22,15 @@ def home(request):
         # context['user_works'] = Work.get_user_work(request.user)
     
     context['all_recipes'] = Recipe.objects.all()
-    print("--",request.user)
     return render(request, 'recipe/index.html', context)
 
 @login_required
 def get_works(request):
-    print("--")
     dic = {}
     maxCount = WorkLog.get_max_id()
-    works = Work.objects.filter(Q(deleted=False), 
-        Q(user=request.user) | Q(user__profile__following=request.user))\
-        .order_by('-date').distinct()
+    works = Work.get_friends_work(request.user)
     dic['works'] = [e.as_json() for e in works]
     dic['maxCount'] = maxCount
-
     data = json.dumps(dic)
     
     return HttpResponse(data, content_type='application/json')
@@ -61,7 +55,6 @@ def get_work_changes(request, maxEntry=-1):
     dic = {"maxCount" : maxCount, "works": works}
     data = json.dumps(dic)
     return HttpResponse(data, content_type='application/json')
-
 
 # post new work
 @login_required
@@ -92,3 +85,42 @@ def add_work(request):
         data = json.dumps(dic)
     # print "save...."
     return HttpResponse(data, content_type='application/json')
+
+@login_required
+def delete_work(request, work_id):
+    dic = {}
+
+    # Deletes the item if present in the work database.
+    try:
+        work_to_delete = get_object_or_404(Work, id=work_id)
+        if work_to_delete.user == request.user:
+            work_to_delete.deleted = True # Just mark items as deleted.
+            work_to_delete.save();
+            work_log = WorkLog(work=work_to_delete, op='del')
+            wrok_log.save();
+            # get comments related to that work
+            related_comments = WorkComments.objects.filter(work=work_to_delete)
+            for c in related_comments:
+                c.delete();
+            work.delete()
+            dic['type'] = 'success'
+        else:
+            error = 'Cannot delete wrok that is not belong to you.'
+            dic['type'] = 'error'
+            dic['errors'] = error
+    except ObjectDoesNotExist:
+        dic['errors'] = 'The item did not exist in the work list.'
+
+    dic['work_id'] = work_id
+    data = json.dumps(dic)
+    return HttpResponse(data, content_type='application/json')
+
+def get_all_recipes(request):
+    dic = {}
+    recipes = Recipe.objects.all()
+    # Recipe.objects.all().order_by('saves','headline')
+    dic['recipes'] = [e.as_json() for e in recipes]
+    data = json.dumps(dic)
+    return HttpResponse(data, content_type='application/json')
+
+    
