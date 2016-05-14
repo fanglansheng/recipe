@@ -24,6 +24,13 @@ urlpatterns = [
     url(r'^$', recipe.views_home.home),
     # works operations:
     url(r'^post_work$', recipe.views_home.add_work, name='add_work'),
+    url(r'^delete_work/(?P<work_id>[0-9]+)$', recipe.views_home.delete_work, name='delete_work'),
+    url(r'^get_work_img/(?P<work_id>[0-9]+)$', recipe.views_home.get_work_photo, name='work_img'),
+    url(r'^get_all_works$', recipe.views_home.get_works, name='all_works'),
+    url(r'^get_work_changes/(?P<maxEntry>\d+)$', recipe.views_home.get_work_changes, name='work_changes'),
+	url(r'^get_work_img/(?P<work_id>[0-9]+)$', recipe.views_home.get_work_photo, name='work_img'),
+    url(r'^get_all_works$', recipe.views_home.get_works, name='all_works'),
+    url(r'^get_work_changes/(?P<maxEntry>\d+)$', recipe.views_home.get_work_changes, name='work_changes'),
 
 	url(r'^home', recipe.views.home, name='hometry'),
     url(r'^login$', recipe.views.loginSelf,  name = 'login'),
@@ -34,9 +41,7 @@ urlpatterns = [
     url(r'^get_recipe_img/(?P<recipe_id>[0-9]+)$', recipe.views.get_recipe_photo, name='recipe_img'),
     url(r'^get_step_img/(?P<step_id>[0-9]+)$', recipe.views.get_step_photo, name='step_img'),
 
-	url(r'^get_work_img/(?P<work_id>[0-9]+)$', recipe.views_home.get_work_photo, name='work_img'),
-    url(r'^get_all_works$', recipe.views_home.get_works, name='all_works'),
-    url(r'^get_work_changes/(?P<maxEntry>\d+)$', recipe.views_home.get_work_changes, name='work_changes'),
+	
 
 
 ]

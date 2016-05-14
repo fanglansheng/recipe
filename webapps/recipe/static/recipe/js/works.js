@@ -57,12 +57,40 @@ function populateWorkList() {
             var new_item = $("<p>").append(work['fields'].bio);
             var item_id = work.pk;
             var new_img = $('<img>').attr('src', "/get_work_img/"+item_id);
+            var delete_btn = $('<a>').attr('href', "/delete_work/"+item_id);
+            delete_btn.append("delete");
+            delete_btn.data('work_id', item_id);
+            delete_btn.click(function(ev){
+                ev.preventDefault();
+                deleteWork(ev.target);
+            });
+            workList.append(delete_btn);
             workList.append(new_item);
             workList.append(new_img);
             // $('#'+post.postId+' .comment-post').data("postId",post.postId);
         }
-
     });
+}
+
+function deleteWork(obj){
+    workId = obj.data("work_id");
+    $.get("/delete_work/"+workId)
+    .done(function(data) {
+        var workList = $("#works-list");
+        if(data.type == "error"){
+        }
+        else{
+            // remove the item from worklist
+        }
+        
+    }); 
+
+    // var id = $(event.target).parent().data("item-id");
+    // $.post("/shared-todo-list/delete-item/" + id)
+    //   .done(function(data) {
+    //       getUpdates();
+    //       $("#item-field").val("").focus()
+    //   });
 }
 
 function updateWorkList(){
@@ -101,7 +129,7 @@ $(document).ready(function () {
     // populateComments();
 
     // Periodically refresh to-do list
-    window.setInterval(updateWorkList, 5000);
+    // window.setInterval(updateWorkList, 5000);
     // window.setInterval(updateComments, 5000);
 
     // CSRF set-up copied from Django docs
