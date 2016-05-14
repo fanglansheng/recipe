@@ -33,7 +33,7 @@ def register(request):
     # Creates a bound form from the request POST parameters and makes the 
     # form available in the request context dictionary.
     registerform = RegistrationForm(request.POST)
-    context['registerform'] = registerform
+    context['registerform'] = RegistrationForm()
 
     # Validates the form.
     if not registerform.is_valid():
@@ -76,20 +76,23 @@ def logoutSelf(request):
     logout(request)
     return redirect('login')
 
+@login_required
 def create_recipe(request):
     context={}
-    print(request.POST)
-    if request.method=="Get":
-        context['recipeForm']=recipeForm()
-        context['stepForm']=stepForm()
+    if request.method == 'GET':
+        context['recipeForm']=recipeForm(prefix="recipeForm")
+        context['stepForm']=stepForm(prefix="stepForm")
+        print("get")
         return render(request, 'wanyan/createRecipe.html', context)
-    
+
+    print(request.POST)
     entry = Recipe(user=request.user,date=datetime.now())
     form = recipeForm(request.POST,request.FILES, instance=entry,prefix="recipeForm")
 
     if not form.is_valid():
-        context['stepForm']=stepForm()
-        context['recipeForm']=recipeForm()
+        context['stepForm']=stepForm(prefix="stepForm")
+        context['recipeForm']=recipeForm(prefix="recipeForm")
+        print("recipe not valid")
         return render(request, 'wanyan/createRecipe.html', context)
    
     # Save the new record
@@ -108,13 +111,39 @@ def create_recipe(request):
     #step = Step(recipe=entry)
     #stepForm = profileform(request.POST, request.FILES, instance=entry)
     step = Step(recipe=entry)
-    #stepForm = stepForm(request.POST, request.FILES, instance=step,prefix="stepForm")
-    #if not stepForm.is_valid():
-    #    context['recipeForm']=recipeForm();
-    #    context['stepForm']=stepForm();
-    #    return render(request, 'wanyan/createRecipe.html', context)
+    stepsForm = stepForm(request.POST,request.FILES, instance=step,prefix="stepForm")
+    if not stepsForm.is_valid():
+        context['recipeForm']=recipeForm(prefix="recipeForm");
+        context['stepForm']=stepForm(prefix="stepForm");
+        print("step not valid")
+        return render(request, 'wanyan/createRecipe.html', context)
    
-    ## Save the new record
-    #stepForm.save()
+    # Save the new record
+    stepsForm.save()
 
     return redirect(reverse('hometry'))
+
+@login_required
+def recipes(request):
+    context={}
+    recipes=Recipe.objects.filter(user=request.user)
+    context['recipes']=recipes
+    return render(request, 'wanyan/recipes.html', context)
+
+@login_required
+def get_recipe_photo(request, recipe_id):
+    recipe = get_object_or_404(Recipe, id=recipe_id)
+    if not recipe.img:
+        print("Cannot find this picture")
+        raise Http404
+    content_type = guess_type(recipe.img.name)
+    return HttpResponse(recipe.img, content_type=content_type)
+
+@login_required
+def get_step_photo(request, step_id):
+    step = get_object_or_404(Recipe, id=step_id)
+    if not step.img:
+        print("Cannot find this picture")
+        raise Http404
+    content_type = guess_type(step.img.name)
+    return HttpResponse(step.img, content_type=content_type)

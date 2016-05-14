@@ -1,0 +1,28 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+	<meta charset="utf-8" />
+</head>
+<body>
+    {% for recipe in recipes %}
+    <h1>recipes</h1>
+        {{recipe.name}}
+        {{recipe.bio}}
+    <img src="{% url 'recipe_img' recipe.id %}" />
+    {% for ingredient in recipe.ingredient_set.all %}
+    <p>ingredients:</p>
+        {{ingredient.name}}
+        {{ingredient.quantity}}
+    {% endfor %}
+    {% for step in recipe.step_set.all %}
+    {{step.order}}
+    {{step.text}}
+    <img src="{% url 'step_img' step.id %}" />
+    {% endfor %}
+    {% endfor %}
+
+    <a href="{% url 'hometry' %}">home</a>
+
+</body>
+</html>

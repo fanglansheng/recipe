@@ -30,6 +30,10 @@ urlpatterns = [
 	url(r'^logout$', recipe.views.logoutSelf, name = 'logout'),
     url(r'^register$', recipe.views.register,name='register'),
     url(r'^create_recipe$', recipe.views.create_recipe,  name = 'create_recipe'),
+    url(r'^recipes$', recipe.views.recipes,name='recipes'),
+    url(r'^get_recipe_img/(?P<recipe_id>[0-9]+)$', recipe.views.get_recipe_photo, name='recipe_img'),
+    url(r'^get_step_img/(?P<step_id>[0-9]+)$', recipe.views.get_step_photo, name='step_img'),
+
 	url(r'^get_work_img/(?P<work_id>[0-9]+)$', recipe.views_home.get_work_photo, name='work_img'),
     url(r'^get_all_works$', recipe.views_home.get_works, name='all_works'),
     url(r'^get_work_changes/(?P<maxEntry>\d+)$', recipe.views_home.get_work_changes, name='work_changes'),

@@ -6,7 +6,7 @@
 </head>
 <body>
         <h1>Recipe</h1>
-        <form enctype="multipart/form-data" action="{% url 'create_recipe' %}" method="post">
+        <form enctype="multipart/form-data" method="post" action="{% url 'create_recipe' %}">
             {% for field in recipeForm.visible_fields %}
             <p>{{field.label_tag}}</p>
             <label >{{field}}</label>
@@ -15,7 +15,7 @@
             {% endfor %}
             <br>
             {% endfor %}
-            {% for field in form.hidden_fields %}
+            {% for field in recipeForm.hidden_fields %}
             {{field}}
             {% endfor %}
             <h1>ingredients:</h1>
@@ -34,7 +34,7 @@
             {% endfor %}
             <br>
             {% endfor %}
-            {% for field in form.hidden_fields %}
+            {% for field in stepForm.hidden_fields %}
             {{stepfield}}
             {% endfor %}
 
