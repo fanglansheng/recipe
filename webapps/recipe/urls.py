@@ -41,7 +41,4 @@ urlpatterns = [
     url(r'^get_recipe_img/(?P<recipe_id>[0-9]+)$', recipe.views.get_recipe_photo, name='recipe_img'),
     url(r'^get_step_img/(?P<step_id>[0-9]+)$', recipe.views.get_step_photo, name='step_img'),
 
-	
-
-
 ]

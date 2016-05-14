@@ -3,6 +3,7 @@ from django.contrib.auth.forms import AuthenticationForm, UserCreationForm, Pass
 from django.forms import ModelForm, Textarea
 from recipe.models import *
 from mimetypes import guess_type
+from django.forms import modelformset_factory
 
 
 # Override AuthenticationForm and add more widgets
@@ -115,3 +116,4 @@ class stepForm(forms.ModelForm):
         model=Step
         exclude=('recipe',)
         widgets={'picture':forms.FileInput()}
+

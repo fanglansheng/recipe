@@ -7,6 +7,7 @@ from django.db import transaction
 from django.http import HttpResponse, Http404
 from mimetypes import guess_type
 from django.core import serializers
+from django.forms import modelformset_factory
 from django.http import HttpResponse
 from django.contrib.auth import login, authenticate, logout
 import json
@@ -79,18 +80,21 @@ def logoutSelf(request):
 @login_required
 def create_recipe(request):
     context={}
+    StepFormSet = modelformset_factory(Step, exclude=('recipe',))
+    data={
+        'form-TOTAL_FORMS': '1',
+    }
     if request.method == 'GET':
         context['recipeForm']=recipeForm(prefix="recipeForm")
-        context['stepForm']=stepForm(prefix="stepForm")
-        print("get")
+        context['stepForm']=StepFormSet(prefix="stepForm", queryset=Step.objects.none())
         return render(request, 'wanyan/createRecipe.html', context)
 
-    print(request.POST)
+    #print(request.POST)
     entry = Recipe(user=request.user,date=datetime.now())
     form = recipeForm(request.POST,request.FILES, instance=entry,prefix="recipeForm")
 
     if not form.is_valid():
-        context['stepForm']=stepForm(prefix="stepForm")
+        context['stepForm']=StepFormSet(prefix="stepForm",queryset=Step.objects.none())
         context['recipeForm']=recipeForm(prefix="recipeForm")
         print("recipe not valid")
         return render(request, 'wanyan/createRecipe.html', context)
@@ -108,18 +112,33 @@ def create_recipe(request):
         newIngre.save();
         i=i+1;
     #steps
+
     #step = Step(recipe=entry)
-    #stepForm = profileform(request.POST, request.FILES, instance=entry)
-    step = Step(recipe=entry)
-    stepsForm = stepForm(request.POST,request.FILES, instance=step,prefix="stepForm")
-    if not stepsForm.is_valid():
-        context['recipeForm']=recipeForm(prefix="recipeForm");
-        context['stepForm']=stepForm(prefix="stepForm");
-        print("step not valid")
-        return render(request, 'wanyan/createRecipe.html', context)
+    #stepsForm = stepForm(request.POST,request.FILES, instance=step,prefix="stepForm")
+    #if not stepsForm.is_valid():
+    #    context['recipeForm']=recipeForm(prefix="recipeForm");
+    #    context['stepForm']=stepForm(prefix="stepForm");
+    #    print("step not valid")
+    #    return render(request, 'wanyan/createRecipe.html', context)
    
     # Save the new record
-    stepsForm.save()
+    #stepsForm.save()
+    #step = Step(recipe=entry)
+    
+    step_formset = StepFormSet(request.POST, request.FILES,prefix="stepForm")
+    if step_formset.is_valid():
+        for step_form in step_formset.forms:
+            print(step_form.prefix)
+        instances = step_formset.save(commit=False)
+        for instance in instances:
+            instance.recipe = entry
+            #print(instance)
+            instance.save()
+    else:
+        context['stepForm']=StepFormSet(prefix="stepForm",queryset=Step.objects.none())
+        context['recipeForm']=recipeForm(prefix="recipeForm")
+        print("formset not valid")
+        return render(request, 'wanyan/createRecipe.html', context)
 
     return redirect(reverse('hometry'))
 
@@ -127,7 +146,11 @@ def create_recipe(request):
 def recipes(request):
     context={}
     recipes=Recipe.objects.filter(user=request.user)
+    recipeLast=recipes.last()
+    aaa = Step.objects.filter()
     context['recipes']=recipes
+    for e in aaa.all():
+        print(e.text)
     return render(request, 'wanyan/recipes.html', context)
 
 @login_required
