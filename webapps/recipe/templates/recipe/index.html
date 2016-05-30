@@ -14,8 +14,7 @@
     <p><a href="{% url 'login' %}">Login</a></p>
     <p><a href="{% url 'register' %}">Register</a></p>
 
-    <div id="formdiv">
-      <!-- id is used for ajax -->
+    <!-- <div id="formdiv">
       <form enctype="multipart/form-data" action={% url 'add_work' %} method="post" id="workform">
         <table>
         {{ work_form }}
@@ -23,7 +22,7 @@
         {% csrf_token %}
         <input id="submit-work" type="submit" value="Share" />
       </form>
-    </div>
+    </div> -->
 
     {% if user %}
       <div id="works-list">
@@ -42,12 +41,10 @@
 
 
 
-
-
-    <div id="content"></div>
     <div id="content1"></div>
     <!-- <CommentBox/> -->
     <script src="/static/recipe/js/workComponent.js" type="text/babel"></script>
-    <script src="/static/recipe/js/works.js" type="text/javascript"></script>
+    
+    
   </body>
 </html>

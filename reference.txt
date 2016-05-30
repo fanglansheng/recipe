@@ -1,5 +1,18 @@
-reactjs form validation:
+1.reactjs form validation:
 https://github.com/jurassix/react-validation-mixin
 
-reactjs-vs-django form template:
+2.reactjs-vs-django form template:
 http://stackoverflow.com/questions/28610372/reactjs-with-django-real-usage
+
+3. communicate between component
+https://facebook.github.io/react/tips/communicate-between-components.html
+
+4.Django Csrf with React:
+http://michaeljones.github.io/blog/posts/2014/06/08/django-csrf-react-component/
+
+****** ReactJS bugs: *********
+
+1.Uncaught Error: Adjacent JSX elements must be wrapped in an enclosing tag:
+React element has to return only one element. You'll have to wrap both of your tags with another element tag.
+http://stackoverflow.com/questions/31284169/uncaught-error-parse-error-line-38-adjacent-jsx-elements-must-be-wrapped-in-a
+

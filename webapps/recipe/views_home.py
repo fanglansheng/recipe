@@ -53,6 +53,7 @@ def get_work_changes(request, maxEntry=-1):
     works = Work.get_changes(maxEntry)
     works = [e.as_json() for e in works]
     dic = {"maxCount" : maxCount, "works": works}
+    print(dic)
     data = json.dumps(dic)
     return HttpResponse(data, content_type='application/json')
 
