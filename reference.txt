@@ -1,0 +1,5 @@
+reactjs form validation:
+https://github.com/jurassix/react-validation-mixin
+
+reactjs-vs-django form template:
+http://stackoverflow.com/questions/28610372/reactjs-with-django-real-usage

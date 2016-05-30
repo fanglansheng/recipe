@@ -1,3 +1,8 @@
+"use strict";
+
+
+
+
 function addWork(){
     // use FormData to add img file to request body.
     var postForm = $("#workform");
@@ -53,34 +58,51 @@ function populateWorkList() {
         // create new wrok
         for (var i = 0; i < data.works.length; i++) {
             // parse json string data to object that can used easily
-            var work = JSON.parse(data.works[i]);
-            var new_item = $("<p>").append(work['fields'].bio);
-            var item_id = work.pk;
+            console.log(data.works[i]);
+
+            var work = data.works[i];
+            var item_id = work.id;
+            var new_work = $("<div>", {id: "work_"+item_id});
+            new_work.data('work_id', item_id);
+
+            var new_item = $("<p>").append(work.bio);
             var new_img = $('<img>').attr('src', "/get_work_img/"+item_id);
             var delete_btn = $('<a>').attr('href', "/delete_work/"+item_id);
             delete_btn.append("delete");
-            delete_btn.data('work_id', item_id);
+            
+
             delete_btn.click(function(ev){
                 ev.preventDefault();
                 deleteWork(ev.target);
             });
-            workList.append(delete_btn);
-            workList.append(new_item);
-            workList.append(new_img);
+            new_work.append(delete_btn);
+            new_work.append(new_item);
+            new_work.append(new_img);
+            workList.append(new_work);
             // $('#'+post.postId+' .comment-post').data("postId",post.postId);
         }
     });
 }
 
 function deleteWork(obj){
-    workId = obj.data("work_id");
-    $.get("/delete_work/"+workId)
+
+    var workId = $(event.target).parent().data("work_id");
+
+    $.post("/delete_work/"+workId)
     .done(function(data) {
         var workList = $("#works-list");
         if(data.type == "error"){
+            errMsg = "";
+            $.each(data.errors,function(i,el){
+                console.log(i);
+                errMsg +=el[0].message;
+                console.log(errMsg);
+            });
         }
         else{
             // remove the item from worklist
+            updateWorkList();
+            
         }
         
     }); 
@@ -102,12 +124,30 @@ function updateWorkList(){
         workList.data('maxCount', data['maxCount']);
         for (var i = 0; i < data.works.length; i++) {
             var work = JSON.parse(data.works[i]);
-            var new_item = $("<p>").append(work['fields'].bio);
-            var new_item = $("<p>").append(work['fields'].bio);
             var item_id = work.pk;
-            var new_img = $('<img>').attr('src', "/get_work_img/"+item_id);
-            workList.prepend(new_img);
-            workList.prepend(new_item);
+            console.log(work);
+            if(work['fields'].deleted){
+                $("#work_" + item_id).remove();
+            }
+            else{
+                var new_work = $("<div>", {id: "work_"+item_id});
+                new_work.data('work_id', item_id);
+
+                var new_item = $("<p>").append(work['fields'].bio);
+                var new_img = $('<img>').attr('src', "/get_work_img/"+item_id);
+                var delete_btn = $('<a>').attr('href', "/delete_work/"+item_id);
+                delete_btn.append("delete");
+
+                delete_btn.click(function(ev){
+                    ev.preventDefault();
+                    deleteWork(ev.target);
+                });
+                new_work.append(delete_btn);
+                new_work.append(new_item);
+                new_work.append(new_img);
+                workList.append(new_work);
+            }
+            
             // $('#'+post.postId+' .comment-post').data("postId",post.postId);
         }
     }); 

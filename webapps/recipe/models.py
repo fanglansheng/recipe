@@ -5,6 +5,18 @@ from django.db.models import Max
 from django.core import serializers
 import json
 
+def user_as_json(user):
+    dic = dict()
+    if user is None:
+        return dic
+    dic['id'] = user.id
+    dic['username'] = user.username
+    # dic['password'] = user.password
+    # dic['profile'] = user.user_profile.to_json()
+    # dic['recommendations'] = [r.to_json() for r in user.user_recommendation.all()]
+    # dic['sound'] =[s.to_json() for s in user.user_sounds.all()]
+    return dic
+
 # Create your models here.
 class Recipe(models.Model):
     user = models.ForeignKey(User)
@@ -57,10 +69,21 @@ class Work(models.Model):
         return self.user.username
 
     def as_json(self):
-        arr = serializers.serialize('json',[self])
-        # get rid of [], because serialize only works for list, and serialize()
-        # is stupid
-        return arr[1:-1]
+        # arr = serializers.serialize('json',[self])
+        # # get rid of [], because serialize only works for list, and serialize()
+        # # is stupid
+        # return arr[1:-1]
+        dic = dict()
+        dic['user'] = user_as_json(self.user)
+        dic['id'] = self.id
+        dic['date'] = self.date.isoformat()
+        dic['bio'] = self.bio
+        dic['image'] = self.img.url
+        dic['like'] = len(self.like.all())
+        dic['recipe'] = self.recipe.to_json() if self.recipe is not None else ''
+        # dic['comment'] = [c.to_json() for c in self.album_comments.all()]
+        dic['deleted'] = self.deleted
+        return dic
 
     @staticmethod
     def get_user_work(user):        
