@@ -6,6 +6,7 @@
 </head>
 <body>
     <h1>Recipe</h1>
+
     <form enctype="multipart/form-data" method="post" action="{% url 'create_recipe' %}">
         {% for field in recipeForm.visible_fields %}
         <p>{{field.label_tag}}</p>
@@ -23,8 +24,9 @@
         <input name="quantity" type="text" placeholder="quantity1" />
         <input name="ingname" type="text" placeholder="ingname2" />
         <input name="quantity" type="text" placeholder="quantity2" />
+        <p id="ingre"></p>
         <input type="submit" value="GO">
-
+        <input type="button" onclick="add()" value="Add"/>
         <h1>steps</h1>
         <!--{% for stepfield in stepForm.visible_fields %}
         <p>{{stepfield.label_tag}}</p>
@@ -61,6 +63,12 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
     <script>
+        function add() {
+            var txt1 = "<input name='ingname' type='text' placeholder='ingname'/>\
+<input name='quantity' type='text' placeholder='quantity' />";
+            $('#ingre').append(txt1);
+        }
+
     $('#add_more').click(function () {
     cloneMore('div.table:last', 'stepForm');
     });
@@ -82,10 +90,6 @@
     }
     
     </script>
-
-    <sciprt>
-
-    </sciprt>
 
 </body>
 </html>

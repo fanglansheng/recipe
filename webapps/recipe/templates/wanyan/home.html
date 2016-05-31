@@ -10,5 +10,20 @@
     <a  href="{%url 'logout' %}">log out</a>
     <a href="{% url 'create_recipe' %}">create form</a>
     <a href="{% url 'recipes' %}">recipes</a>
+    <h1>your information</h1>
+    {% for profile in pro %}
+    <div class="informationbox">
+        <div class="firstname">{{profile.city}}</div>
+        <span class="lastname">{{profile.country}}</span>
+        <span class="age">{{profile.bio}}</span>
+    </div>
+    {% endfor %}
+    <div class="profileInfo">
+        <div class="photo">
+            <img src="{% url 'get_user_photo' %}">
+        </div>
+    </div>
+    <a href="{% url 'edit_profile' %}">edit profile</a>
+
 </body>
 </html>

@@ -43,5 +43,8 @@ urlpatterns = [
     url(r'^recipes$', recipe.views.recipes,name='recipes'),
     url(r'^get_recipe_img/(?P<recipe_id>[0-9]+)$', recipe.views.get_recipe_photo, name='recipe_img'),
     url(r'^get_step_img/(?P<step_id>[0-9]+)$', recipe.views.get_step_photo, name='step_img'),
+    url(r'^delete$', recipe.views.delete, name='delete'),
+    url(r'^edit_profile$', recipe.views.edit_profile, name='edit_profile'),
+    url(r'^get_user_photo$', recipe.views.get_user_photo, name='get_user_photo'),
 
 ]

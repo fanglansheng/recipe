@@ -110,11 +110,18 @@ class recipeForm(forms.ModelForm):
     class Meta:
         model=Recipe
         exclude=('user','date',)
-        widgets={'picture':forms.FileInput()}
+        widgets={'img':forms.FileInput()}
 
 class stepForm(forms.ModelForm):
     class Meta:
         model=Step
         exclude=('recipe',)
-        widgets={'picture':forms.FileInput()}
+        widgets={'img':forms.FileInput()}
+
+class profileForm(forms.ModelForm):
+    class Meta:
+         model=Profile
+         exclude=('owner','following','saves',)
+         widgets={'img':forms.FileInput()}
+
 

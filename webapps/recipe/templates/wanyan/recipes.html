@@ -20,6 +20,11 @@
     {{step.text}}
     <img src="{% url 'step_img' step.id %}" />
     {% endfor %}
+    <form action="{% url 'delete' %}" method="post">
+        <input type="hidden" value="{{recipe.pk}}" name="id"/>
+        <input type="submit" value="delete"/>
+        {% csrf_token %}
+    </form>
     {% endfor %}
 
     <a href="{% url 'hometry' %}">home</a>
