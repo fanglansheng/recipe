@@ -154,10 +154,22 @@ class WorkComments(models.Model):
     work = models.ForeignKey(Work)
     content = models.CharField(max_length=100)
     date = models.DateTimeField(auto_now = True)
-    deleted = models.BooleanField(default=False)
 
     def __unicode__(self):
         return "%s: %s" % (self.user, self.content)
+
+    # Returns all comments of work
+    @staticmethod
+    def get_comments(work):        
+        return WorkComments.objects.filter(Q(work=work)).order_by('-date')
+
+    def as_json(self):
+        dic = dict()
+        dic['user'] = user_as_json(self.user)
+        dic['id'] = self.id
+        dic['date'] = self.date.isoformat()
+        dic['content'] = self.content
+        return dic
 
 # comments for recipe
 class RecipeComments(models.Model):

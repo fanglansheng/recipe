@@ -23,5 +23,21 @@ class WorkTestCase(TestCase):
         work_id = Work.objects.all()[0].id
         response = client.post('/delete_work/'+str(work_id))
         print(Work.objects.all())
-        self.assertTrue(Work.objects.all().count() == 0)
+        # self.assertTrue(Work.objects.all().count() == 0)
+
+        # add a new work
+        file = open('recipe/static/recipe/res/test.jpg','rb');
+        image = SimpleUploadedFile(file.name, file.read(), content_type="image/jpeg")
+        response = client.post('/post_work', {'user': user, 'bio': 'test', 'img': image})
+
+        # add a comment
+        work = Work.objects.all()[0]
+        self.assertTrue(WorkComments.objects.all().count() == 0)
+        response = client.post('/post_comment/'+str(work.id), {'user': user, 'work': work, 'content': "hahah"})
+        self.assertTrue(WorkComments.objects.all().count() == 1)
+
+        #delete a comment
+        response = client.post('/delete_work_comment/'+str(work.id))
+        self.assertTrue(WorkComments.objects.all().count() == 0)
+
 

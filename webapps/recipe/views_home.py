@@ -12,9 +12,23 @@ from datetime import datetime
 from recipe.models import *
 from recipe.forms import * 
 import json
+import logging
+
+# create logger
+logger = logging.getLogger('RECIPE')
+logger.setLevel(logging.DEBUG)
+# create console handler and set level to debug
+ch = logging.StreamHandler()
+ch.setLevel(logging.DEBUG)
+
+# create formatter
+formatter = logging.Formatter('#%(name)s# %(levelname)s - %(message)s')
+ch.setFormatter(formatter)
+
+# add ch to logger
+logger.addHandler(ch)
 
 # home that can be accessed by all people even without logging in
-
 def home(request):
     context = {}
     if request.user != None:
@@ -32,7 +46,6 @@ def get_works(request):
     dic['works'] = [e.as_json() for e in works]
     dic['maxCount'] = maxCount
     data = json.dumps(dic)
-    
     return HttpResponse(data, content_type='application/json')
 
 
@@ -41,7 +54,7 @@ def get_works(request):
 def get_work_photo(request, work_id):
     work = get_object_or_404(Work, id=work_id)
     if not work.img:
-        print("Cannot find this picture")
+        logger.warning("Cannot find this picture")
         raise Http404
     content_type = guess_type(work.img.name)
     return HttpResponse(work.img, content_type=content_type)
@@ -53,7 +66,6 @@ def get_work_changes(request, maxEntry=-1):
     works = Work.get_changes(maxEntry)
     works = [e.as_json() for e in works]
     dic = {"maxCount" : maxCount, "works": works}
-    print(dic)
     data = json.dumps(dic)
     return HttpResponse(data, content_type='application/json')
 
@@ -69,15 +81,15 @@ def add_work(request):
     work = Work(user=request.user)
     workForm = CreateWorkForm(request.POST, request.FILES, instance=work)
     if not workForm.is_valid():
-        print("add_work failed")
+        logger.warning("add_work failed")
         error_str = workForm.errors.as_json()
         error_dict = json.loads(error_str)
         dic['type'] = 'error'
         dic['errors'] = error_dict
         data = json.dumps(dic)
-        print(data)
+        logger.debug(data)
     else:
-        print("add_work success")
+        logger.warning("add_work success")
         work.full_clean()
         work.save()
         workLog = WorkLog(item=work, op='Add')
@@ -85,13 +97,12 @@ def add_work(request):
         dic['type'] = 'success'
         dic['new_work'] = work.as_json()
         data = json.dumps(dic)
-    # print "save...."
     return HttpResponse(data, content_type='application/json')
+
 
 @login_required
 def delete_work(request, work_id):
     dic = {}
-
     # Deletes the item if present in the work database.
     try:
         work_to_delete = get_object_or_404(Work, id=work_id)
@@ -106,19 +117,72 @@ def delete_work(request, work_id):
                 c.delete();
             # work_to_delete.delete()
             dic['type'] = 'success'
-            print("# delete work success!")
+            logger.warning("# delete work success!")
         else:
             error = 'Cannot delete wrok that is not belong to you.'
             dic['type'] = 'error'
             dic['errors'] = error
-            print(error)
+            logger.error(error)
     except ObjectDoesNotExist:
         dic['errors'] = 'The item did not exist in the work list.'
-        print(dic['errors'])
+        logger.error(dic['errors'])
 
     dic['work_id'] = work_id
     data = json.dumps(dic)
     return HttpResponse(data, content_type='application/json')
+
+
+# get all comment of work_id
+@login_required
+def get_comments_by_work(request, work_id):
+    dic = {}
+    work = get_object_or_404(Work, id=work_id)
+    comments = WorkComments.get_comments(work)
+    dic['comments'] = [e.as_json() for e in comments]
+    dic['user'] = request.user.username
+    data = json.dumps(dic)
+    return HttpResponse(data, content_type='application/json')
+
+
+# post new comment
+@login_required
+def add_comment(request, work_id):
+    dic = {}
+    towork = get_object_or_404(Work, id=work_id)
+    # create a new comment
+    comment = WorkComments(user=request.user, work=towork)
+    # bound data to commentform
+    commentForm = CreateCommentForm(request.POST, instance=comment)
+    if not commentForm.is_valid():
+        logger.warning("add_comment failed")
+        error_str = commentForm.errors.as_json()
+        error_dict = json.loads(error_str)
+        dic['type'] = 'error'
+        dic['errors'] = error_dict
+        data = json.dumps(dic)
+    else:
+        logger.warning("add_comment success")
+        comment.save()
+        dic['type'] = 'success'
+        dic['new_comment'] = comment.as_json()
+        data = json.dumps(dic)
+    return HttpResponse(data, content_type='application/json')
+
+
+@login_required
+def delete_work_comment(request, comment_id):
+    dic = {}
+    comment = get_object_or_404(WorkComments, id=comment_id)
+    if comment.user == request.user:
+        comment.delete()
+        dic['type'] = 'success'
+    else:
+        dic['type'] = 'error'
+        dic['msg'] = 'Cannot delete comment that is not belong to you.'
+    dic['comment_id'] = comment_id
+    data = json.dumps(dic)
+    return HttpResponse(data, content_type='application/json')
+
 
 def get_all_recipes(request):
     dic = {}

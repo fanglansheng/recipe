@@ -1,0 +1,16 @@
+.workImg {
+  width: 200px;
+  height: 200px;
+  border-radius: 6px;
+  margin: 30px 20px 0;
+  display: block;
+  top: 0;
+  float: left; }
+
+.workBox {
+  width: 250px;
+  height: 100%;
+  margin: 10px;
+  background-color: #F8F8F8; }
+
+/*# sourceMappingURL=work.css.map */

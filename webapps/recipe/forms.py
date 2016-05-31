@@ -82,8 +82,6 @@ class CreateWorkForm(forms.ModelForm):
         fields = ['bio', 'img']
         widgets = {
             'bio':Textarea(attrs={'form':"postform",
-                                'class':"post-input",
-                                'id': "workform-text",
                                 'maxlengt':"1000",
                                 'placeholder':"What did you cook?"}),
         }
@@ -98,12 +96,15 @@ class CreateWorkForm(forms.ModelForm):
                 'invalid':"Oops! The type is invalid.",
             },
         }
-    def clean(self):
 
+    def clean(self):
         cleaned_data = super(CreateWorkForm, self).clean()
-        print("--------",cleaned_data);
         return cleaned_data
 
+class CreateCommentForm(forms.ModelForm): 
+    class Meta:
+      model = WorkComments
+      fields = ['content']
 
 class recipeForm(forms.ModelForm):
     class Meta:

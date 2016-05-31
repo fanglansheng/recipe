@@ -28,9 +28,12 @@ urlpatterns = [
     url(r'^get_work_img/(?P<work_id>[0-9]+)$', recipe.views_home.get_work_photo, name='work_img'),
     url(r'^get_all_works$', recipe.views_home.get_works, name='all_works'),
     url(r'^get_work_changes/(?P<maxEntry>\d+)$', recipe.views_home.get_work_changes, name='work_changes'),
-	url(r'^get_work_img/(?P<work_id>[0-9]+)$', recipe.views_home.get_work_photo, name='work_img'),
-    url(r'^get_all_works$', recipe.views_home.get_works, name='all_works'),
-    url(r'^get_work_changes/(?P<maxEntry>\d+)$', recipe.views_home.get_work_changes, name='work_changes'),
+
+    # comments operation:
+    url(r'^post_comment/(?P<work_id>[0-9]+)$', recipe.views_home.add_comment, name='add_work_comment'),
+    url(r'^delete_work_comment/(?P<comment_id>[0-9]+)$', recipe.views_home.delete_work_comment, name='delete_work_comment'),
+    url(r'^get_comments_by_work/(?P<work_id>[0-9]+)$', recipe.views_home.get_comments_by_work),
+
 
 	url(r'^home', recipe.views.home, name='hometry'),
     url(r'^login$', recipe.views.loginSelf,  name = 'login'),

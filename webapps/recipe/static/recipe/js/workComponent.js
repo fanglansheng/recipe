@@ -1,3 +1,13 @@
+// var User = React.createClass({
+//   statics:{
+
+//   },
+//   render: function(){
+//     return ();
+//   }
+// });
+
+
 // each post in post list
 // bind(this, arg1, arg2, ...): we're simply passing more arguments to deleteWork
 var PostList = React.createClass({
@@ -42,7 +52,6 @@ var PostList = React.createClass({
   },
 
   updateWorkList: function(){
-    console.log(this.state.maxCount);
     var itself = this;
     $.get("/get_work_changes/"+this.state.maxCount)
     .done(function(data) {
@@ -95,9 +104,7 @@ var PostList = React.createClass({
       var workBox = post.deleted ? null : (
         <WorkBox work={post} onDelete={itself.deleteWork.bind(itself, post.id)}/>
       );
-      return(
-        <div key={i} > { workBox } </div>
-      );
+      return( <div key={i}> { workBox } </div> );
     });
 
     return (
@@ -113,57 +120,25 @@ var PostList = React.createClass({
 
 var WorkBox = React.createClass({
   render: function() {
+    // var commentBox = 
     return (
       <div className="workBox">
-        <span>User: {this.props.work.user.username}</span>
-        <DeleteWorkBtn clickHandler={this.props.onDelete}/>
-        <p>{this.props.work.bio}</p>
-        <img className="workImg" src={"/get_work_img/"+this.props.work.id}/>
+        <div>
+          <span>User: {this.props.work.user.username}</span>
+          <button className="delWorkBtn" onClick={this.props.onDelete}>
+            Delete
+          </button>
+          <p>{this.props.work.bio}</p>
+          <img className="workImg" src={"/get_work_img/"+this.props.work.id}/>
+        </div>
+        <div>
+          <CommentList workid={this.props.work.id}/>
+        </div>
       </div>
     );
   }
 });
 
-var DeleteWorkBtn = React.createClass({
-  render: function(){
-    return (
-      <button className="delWorkBtn" onClick={this.props.clickHandler}>
-        Delete
-      </button>
-    );
-  }
-});
-
-// var CommentForm = React.createClass({
-//     render: function() {
-//         return (
-//             <div className="postBox">
-//             </div>
-//         );
-//     }
-// });
-
-// var CommentList = React.createClass({
-//     render: function() {
-//         return (
-//             <div className="postBox">
-//             </div>
-//         );
-//     }
-// });
-
-// var PostItem = React.createClass({
-//   render: function() {
-//     return (
-//       <div className="postBox">
-//         <h1>Works</h1>
-//         <WrokBox/>
-//         <CommentForm/>
-//         <CommentList/>
-//       </div>
-//     );
-//   }
-// });
 
 var WorkForm = React.createClass({
   addWork: function(e){
@@ -230,11 +205,149 @@ var WorkForm = React.createClass({
 });
 
 
+var CommentList = React.createClass({
+  loadCommentsFromServer: function(){
+    var itself = this;
+    $.get("/get_comments_by_work/"+this.props.workid)
+    .done(function(data) {
+      itself.setState({ user:data.user, allComments: data.comments });
+    });
+  },
+
+  deleteHandler: function(commentid){
+    // delete this comment at front end
+    var commentList = this.state.allComments;
+    commentList.forEach(function(c,i,input){
+      if(c.id == commentid){
+        input.slice(i,1);
+      }
+    });
+
+    this.setState({allComments: commentList});
+
+    var itself = this;
+    $.post("/delete_work_comment/"+commentid)
+    .done(function(data) {
+      if(data.type == "error"){
+        errMsg = "";
+        $.each(data.errors,function(i,el){
+          errMsg +=el[0].message;
+          console.log(i+errMsg);
+        });
+      }
+    });
+  },
+
+  getInitialState: function(){
+    return { user:'', allComments:[]};
+  },
+
+  componentDidMount: function(){
+    this.loadCommentsFromServer();
+    setInterval(this.loadCommentsFromServer, 5000);
+  },
+
+  render: function(){
+    // each comment item
+    var self = this;
+    var allComments = this.state.allComments.map(function(c, i){
+      var deleteBtn = c.user.username != self.state.user ? null : (
+          <button className="delCommentBtn"
+            onClick={self.deleteHandler.bind(self,c.id)}>x
+          </button>
+        );
+
+      return(
+        <div key={i} className="commentItem">
+          <p> {c.user.username} : {c.content} </p>
+          {deleteBtn}
+        </div>
+      );
+    });
+
+    return (
+      <div className="commentBox">
+        <CommentForm workid={this.props.workid}
+          updateHandler={this.loadCommentsFromServer}/>
+        <div className="commentList">
+          { allComments }
+        </div>
+      </div>
+    );
+  }
+});
+
+
+var CommentForm = React.createClass({
+  addComment : function(e){
+    e.preventDefault();
+    // use FormData to add img file to request body.
+    var formData = new FormData();
+
+    // client side validation:
+    if(this.state.comment == ''){
+        console.log("no inputs");
+        return;
+    }
+
+    var csrf = this.refs.csrfToken.refs.csrf.value;
+    // append data to request data
+    formData.append("content", this.state.comment);
+    formData.append("csrfmiddlewaretoken", csrf);
+
+    var self = this;
+    $.ajax({ 
+        type: 'POST', 
+        url: '/post_comment/'+this.props.workid, 
+        data: formData,
+        processData: false,  // tell jQuery not to process the data
+        contentType: false   // tell jQuery not to set contentType
+    })
+    .done(function(data) {
+        if(data.type == "error"){
+            errMsg = "";
+            $.each(data.errors,function(i,el){
+                errMsg +=el[0].message;
+                console.log(errMsg);
+            });
+        }
+        else{
+          self.props.updateHandler();
+        }
+    });
+  },
+
+  changeHandler: function(event){
+    this.setState({
+      comment: event.target.value
+    });
+  },
+
+  getInitialState: function(){
+    return { comment: "" };
+  },
+
+  render: function() {
+    return (
+      <form enctype="multipart/form-data" method="post">
+        <textarea className="commentformText"
+          value={this.state.comment} 
+          onChange={this.changeHandler}>
+        </textarea>
+        <input className="makeCommentBtn" type="submit"
+          value="Reply" onClick={this.addComment}/>
+        <DjangoCSRFToken ref="csrfToken"/>
+      </form>
+    );
+}
+});
+
 var DjangoCSRFToken = React.createClass({
   render: function() {
-    var csrfToken = getCookie('csrftoken');//Django.csrf_token();
+    var csrfToken = getCookie('csrftoken');
     return (
-      <input type="hidden" name="csrfmiddlewaretoken" value={csrfToken}/>
+      <input ref="csrf" type="hidden"
+        name="csrfmiddlewaretoken" value={csrfToken}/>
     );
   }
 });
