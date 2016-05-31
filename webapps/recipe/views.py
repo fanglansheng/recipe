@@ -63,7 +63,6 @@ def register(request):
 
 def loginSelf(request):
     #this is the method to login
-    print (User.objects.all())
     context = {}
     context['registerform'] = RegistrationForm()
     if request.method == 'GET':

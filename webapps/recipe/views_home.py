@@ -3,11 +3,11 @@ from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib.auth import login, authenticate
+from django.core.exceptions import ObjectDoesNotExist
 from django.db import transaction
 from django.http import HttpResponse, Http404
 from mimetypes import guess_type
 from django.core import serializers
-from django.http import HttpResponse
 from datetime import datetime
 from recipe.models import *
 from recipe.forms import * 
@@ -53,6 +53,7 @@ def get_work_changes(request, maxEntry=-1):
     works = Work.get_changes(maxEntry)
     works = [e.as_json() for e in works]
     dic = {"maxCount" : maxCount, "works": works}
+    print(dic)
     data = json.dumps(dic)
     return HttpResponse(data, content_type='application/json')
 
@@ -74,6 +75,7 @@ def add_work(request):
         dic['type'] = 'error'
         dic['errors'] = error_dict
         data = json.dumps(dic)
+        print(data)
     else:
         print("add_work success")
         work.full_clean()
@@ -96,20 +98,23 @@ def delete_work(request, work_id):
         if work_to_delete.user == request.user:
             work_to_delete.deleted = True # Just mark items as deleted.
             work_to_delete.save();
-            work_log = WorkLog(work=work_to_delete, op='del')
-            wrok_log.save();
+            work_log = WorkLog(item=work_to_delete, op='del')
+            work_log.save();
             # get comments related to that work
             related_comments = WorkComments.objects.filter(work=work_to_delete)
             for c in related_comments:
                 c.delete();
-            work.delete()
+            # work_to_delete.delete()
             dic['type'] = 'success'
+            print("# delete work success!")
         else:
             error = 'Cannot delete wrok that is not belong to you.'
             dic['type'] = 'error'
             dic['errors'] = error
+            print(error)
     except ObjectDoesNotExist:
         dic['errors'] = 'The item did not exist in the work list.'
+        print(dic['errors'])
 
     dic['work_id'] = work_id
     data = json.dumps(dic)

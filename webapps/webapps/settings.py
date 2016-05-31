@@ -112,3 +112,13 @@ STATIC_URL = '/static/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
+
+# Configures Django print emails rather than sending:
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+# Real email-sending, for Wanyan:
+# EMAIL_HOST = 'smtp.gmail.com'
+# EMAIL_HOST_USER = 'meditation.noreply@gmail.com'
+# EMAIL_HOST_PASSWORD = 'meditation'
+# EMAIL_PORT = 587
+# EMAIL_USE_TLS = True
