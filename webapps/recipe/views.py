@@ -18,7 +18,9 @@ from recipe.forms import *
 
 @login_required
 def home(request):
-    context={};
+    context={}
+    pro=Profile.objects.filter(owner=request.user)
+    context={'pro':pro}
     return render(request, 'wanyan/home.html', context);
     
 
@@ -44,11 +46,17 @@ def register(request):
     new_user = User.objects.create_user(username=registerform.cleaned_data['username'], 
                                         password=registerform.cleaned_data['password1'],)
     new_user.save()
-
+    
+   
 
     # Logs in the new user and redirects to his/her todo list
     new_user = authenticate(username=registerform.cleaned_data['username'],
                             password=registerform.cleaned_data['password1'])
+    
+    user = User.objects.get(username = registerform.cleaned_data['username'])
+    new_profile=Profile(owner=user)
+    new_profile.save()
+
     login(request, new_user)
     context={}
     return redirect(reverse('hometry'))
@@ -170,3 +178,44 @@ def get_step_photo(request, step_id):
         raise Http404
     content_type = guess_type(step.img.name)
     return HttpResponse(step.img, content_type=content_type)
+
+@login_required
+def delete(request):
+	#this is the method to cancel an unpaid order
+    if request.method == 'GET':
+        return redirect('recipes')
+    id=request.POST.get('id')
+    recipe = Recipe.objects.get(pk = id)
+    recipe.delete()
+    return redirect(reverse('recipes'))
+
+@login_required
+def edit_profile(request):
+    profile_to_edit=get_object_or_404(Profile,owner=request.user)
+    if request.method == 'GET':
+        form=profileForm(instance=profile_to_edit)
+        if Profile.objects.filter(owner=request.user).exists():
+            context={'form':form}
+        else:
+            context={'form':form}
+        return render(request,'wanyan/editprofile.html',context);
+
+    form=profileForm(request.POST,request.FILES,instance=profile_to_edit)
+    if not form.is_valid():
+        if Profile.objects.filter(owner=request.user).exists():
+            context={'form':form}
+        else:
+            context={'form':form}
+        return render(request,'wanyan/editprofile.html',context);
+
+    form.save()
+    return redirect(reverse('hometry'))
+
+@login_required
+def get_user_photo(request):
+	#this is the method to get a customer's photo
+	profile = get_object_or_404(Profile, owner = request.user)
+	if not profile.img:
+		raise Http404
+	content_type = guess_type(profile.img.name)
+	return HttpResponse(profile.img, content_type = content_type)
