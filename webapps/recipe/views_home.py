@@ -192,4 +192,15 @@ def get_all_recipes(request):
     data = json.dumps(dic)
     return HttpResponse(data, content_type='application/json')
 
+
+def get_user_image(request, user_id):
+    user = get_object_or_404(User, id=user_id)
+    profile = get_object_or_404(Profile, user=user)
+
+    if not profile.image:
+        raise Http404
+    content_type = guess_type(profile.image.name)
+    return HttpResponse(profile.image, content_type=content_type)
+
+
     

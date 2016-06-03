@@ -356,7 +356,7 @@ var DjangoCSRFToken = React.createClass({
 
 var postListInstance = ReactDOM.render(
   <PostList/>,
-  document.getElementById('content1')
+  document.getElementById('workArea')
 );
 
 

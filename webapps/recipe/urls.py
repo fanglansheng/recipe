@@ -34,6 +34,11 @@ urlpatterns = [
     url(r'^delete_work_comment/(?P<comment_id>[0-9]+)$', recipe.views_home.delete_work_comment, name='delete_work_comment'),
     url(r'^get_comments_by_work/(?P<work_id>[0-9]+)$', recipe.views_home.get_comments_by_work),
 
+    # user operation:
+    url(r'^user_photo/(?P<user_id>[0-9]+)$', recipe.views_home.get_user_image),
+
+    # recipe operation:
+    url(r'^get_all_recipes$', recipe.views_home.get_all_recipes),
 
 	url(r'^home', recipe.views.home, name='hometry'),
     url(r'^login$', recipe.views.loginSelf,  name = 'login'),

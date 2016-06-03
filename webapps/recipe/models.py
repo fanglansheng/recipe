@@ -29,10 +29,15 @@ class Recipe(models.Model):
     def __unicode__(self):
         return self.name
     def as_json(self):
-        arr = serializers.serialize('json',[self])
-        # get rid of [], because serialize only works for list, and serialize()
-        # is stupid
-        return arr[1:-1]
+        dic = dict()
+        dic['user'] = user_as_json(self.user)
+        dic['id'] = self.id
+        dic['name'] = self.name
+        dic['date'] = self.date.isoformat()
+        dic['bio'] = self.bio
+        dic['img'] = self.img.url
+        dic['save'] = len(self.saves.all())
+        return dic
     # @staticmethod
     # def get_hot_recipes():
     #     return Recipe.objects.all().order_by('saves','headline')
@@ -79,7 +84,8 @@ class Work(models.Model):
         dic['bio'] = self.bio
         dic['image'] = self.img.url
         dic['like'] = len(self.like.all())
-        dic['recipe'] = self.recipe.to_json() if self.recipe is not None else ''
+        dic['recipe'] = self.recipe.as_json() if self.recipe is not None else ''
+
         # dic['comment'] = [c.to_json() for c in self.album_comments.all()]
         dic['deleted'] = self.deleted
         return dic
@@ -146,6 +152,17 @@ class Profile(models.Model):
     def __unicode__(self):
         return self.owner.username
 
+    def as_json(self):
+        dic = dict()
+        dic['user'] = user_as_json(self.user)
+        dic['city'] = self.city
+        dic['country'] = self.country
+        dic['bio'] = self.bio
+        dic['img'] = self.img.url
+        dic['following'] = [user_as_json(f) for f in self.following.all()]
+        dic['saves'] = [r.as_json() for r in self.recipe.all()]
+        return dic
+
 
 # comments for work
 class WorkComments(models.Model):
@@ -176,7 +193,12 @@ class RecipeComments(models.Model):
     recipe = models.ForeignKey(Recipe)
     content = models.CharField(max_length=100)
     date = models.DateTimeField(auto_now = True)
-    deleted = models.BooleanField(default=False)
 
     def __unicode__(self):
         return "%s: %s" % (self.user, self.content)
+
+    def as_json(self):
+        dic = dict()
+        dic['user'] = user_as_json(self.user)
+        dic['id'] = self.id
+        dic['date'] = self.date.isoformat
