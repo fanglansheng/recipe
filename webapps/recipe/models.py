@@ -14,7 +14,6 @@ def user_as_json(user):
     # dic['password'] = user.password
     # dic['profile'] = user.user_profile.to_json()
     # dic['recommendations'] = [r.to_json() for r in user.user_recommendation.all()]
-    # dic['sound'] =[s.to_json() for s in user.user_sounds.all()]
     return dic
 
 # Create your models here.
