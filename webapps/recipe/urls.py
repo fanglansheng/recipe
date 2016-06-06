@@ -17,11 +17,15 @@ from django.conf.urls import include, url
 from django.contrib import admin, auth
 import django.contrib.auth.views
 import recipe.views_home
+import recipe.views_user
 import recipe.views
 
 urlpatterns = [
     # url(r'^admin/', include(admin.site.urls)),
+    # page operation
     url(r'^$', recipe.views_home.home),
+    url(r'^profile/(?P<user_id>[0-9]+)$', recipe.views_user.profile),
+
     # works operations:
     url(r'^post_work$', recipe.views_home.add_work, name='add_work'),
     url(r'^delete_work/(?P<work_id>[0-9]+)$', recipe.views_home.delete_work, name='delete_work'),
@@ -35,7 +39,10 @@ urlpatterns = [
     url(r'^get_comments_by_work/(?P<work_id>[0-9]+)$', recipe.views_home.get_comments_by_work),
 
     # user operation:
-    url(r'^user_photo/(?P<user_id>[0-9]+)$', recipe.views_home.get_user_image),
+    url(r'^get_user_profile/(?P<user_id>[0-9]+)$', recipe.views_user.get_user_profile),
+    url(r'^user_photo/(?P<username>\w+)$', recipe.views_user.get_user_image),
+    url(r'^follow/(?P<username>\w+)$', recipe.views_user.follow),
+    url(r'^unfollow/(?P<username>\w+)$', recipe.views_user.unfollow),
 
     # recipe operation:
     url(r'^get_all_recipes$', recipe.views_home.get_all_recipes),

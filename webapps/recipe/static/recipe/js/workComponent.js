@@ -1,15 +1,8 @@
-// var User = React.createClass({
-//   statics:{
-
-//   },
-//   render: function(){
-//     return ();
-//   }
-// });
 
 
 // each post in post list
-// bind(this, arg1, arg2, ...): we're simply passing more arguments to deleteWork
+// bind(this, arg1, arg2, ..\.): we're simply passing 
+// more arguments to deleteWork
 var PostList = React.createClass({
   deleteWork: function(workid){
     var itself = this;
@@ -102,7 +95,8 @@ var PostList = React.createClass({
     var itself = this;
     var allPosts = this.state.allWork.map(function(post, i){
       var workBox = post.deleted ? null : (
-        <WorkBox work={post} onDelete={itself.deleteWork.bind(itself, post.id)}/>
+        <WorkBox work={post}
+                 onDelete={itself.deleteWork.bind(itself, post.id)}/>
       );
       return( <div key={i}> { workBox } </div> );
     });
@@ -120,19 +114,20 @@ var PostList = React.createClass({
 
 var WorkBox = React.createClass({
   render: function() {
-    // var commentBox = 
+    var work = this.props.work;
     return (
       <div className="workBox">
         <div>
-          <span>User: {this.props.work.user.username}</span>
+          <a href={"/profile/"+work.user.id}>User: {work.user.username}</a>
           <button className="delWorkBtn" onClick={this.props.onDelete}>
             Delete
           </button>
-          <p>{this.props.work.bio}</p>
-          <img className="workImg" src={"/get_work_img/"+this.props.work.id}/>
+          <p>{work.bio}</p>
+          <img className="workImg"
+                src={"/get_work_img/"+work.id}/>
         </div>
         <div>
-          <CommentList workid={this.props.work.id}/>
+          <CommentList workid={work.id}/>
         </div>
       </div>
     );

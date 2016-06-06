@@ -29,14 +29,8 @@ ch.setFormatter(formatter)
 logger.addHandler(ch)
 
 # home that can be accessed by all people even without logging in
-def home(request):
-    context = {}
-    if request.user != None:
-        context['work_form'] = CreateWorkForm()
-        # context['user_works'] = Work.get_user_work(request.user)
-    
-    context['all_recipes'] = Recipe.objects.all()
-    return render(request, 'recipe/index.html', context)
+def home(request):    
+    return render(request, 'recipe/index.html')
 
 @login_required
 def get_works(request):
@@ -192,15 +186,6 @@ def get_all_recipes(request):
     data = json.dumps(dic)
     return HttpResponse(data, content_type='application/json')
 
-
-def get_user_image(request, user_id):
-    user = get_object_or_404(User, id=user_id)
-    profile = get_object_or_404(Profile, user=user)
-
-    if not profile.image:
-        raise Http404
-    content_type = guess_type(profile.image.name)
-    return HttpResponse(profile.image, content_type=content_type)
 
 
     

@@ -10,9 +10,18 @@ https://facebook.github.io/react/tips/communicate-between-components.html
 4.Django Csrf with React:
 http://michaeljones.github.io/blog/posts/2014/06/08/django-csrf-react-component/
 
+5. ReactJS controller-view pattern
+http://blog.andrewray.me/the-reactjs-controller-view-pattern/
+
+
 ****** ReactJS bugs: *********
 
 1.Uncaught Error: Adjacent JSX elements must be wrapped in an enclosing tag:
 React element has to return only one element. You'll have to wrap both of your tags with another element tag.
 http://stackoverflow.com/questions/31284169/uncaught-error-parse-error-line-38-adjacent-jsx-elements-must-be-wrapped-in-a
+
+
+********* Django : **************
+1.Django Template Variables and Javascript
+http://stackoverflow.com/questions/298772/django-template-variables-and-javascript
 

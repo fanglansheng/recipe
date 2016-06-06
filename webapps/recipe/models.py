@@ -28,6 +28,7 @@ class Recipe(models.Model):
 
     def __unicode__(self):
         return self.name
+
     def as_json(self):
         dic = dict()
         dic['user'] = user_as_json(self.user)
@@ -41,6 +42,10 @@ class Recipe(models.Model):
     # @staticmethod
     # def get_hot_recipes():
     #     return Recipe.objects.all().order_by('saves','headline')
+
+    @staticmethod
+    def get_user_recipes(user):
+        return Recipe.objects.filter(user=user).order_by('-date').distinct()
 
 class Step(models.Model):
     recipe = models.ForeignKey(Recipe)
@@ -83,7 +88,7 @@ class Work(models.Model):
         dic['date'] = self.date.isoformat()
         dic['bio'] = self.bio
         dic['image'] = self.img.url
-        dic['like'] = len(self.like.all())
+        dic['likes'] = len(self.like.all())
         dic['recipe'] = self.recipe.as_json() if self.recipe is not None else ''
 
         # dic['comment'] = [c.to_json() for c in self.album_comments.all()]
@@ -146,21 +151,27 @@ class Profile(models.Model):
     # return a list of user's works
     def get_user_works(self):
         return self.work_set.all()
+
     def get_user_recipe(self):
         return self.recipe_set.all()
+
+    def get_fans(self):
+        fans = User.objects.filter(following=self).distinct()
+        fansList = [user_as_json(f) for f in fans]
+        return fansList
 
     def __unicode__(self):
         return self.owner.username
 
     def as_json(self):
         dic = dict()
-        dic['user'] = user_as_json(self.user)
+        dic['user'] = user_as_json(self.owner)
         dic['city'] = self.city
         dic['country'] = self.country
         dic['bio'] = self.bio
         dic['img'] = self.img.url
         dic['following'] = [user_as_json(f) for f in self.following.all()]
-        dic['saves'] = [r.as_json() for r in self.recipe.all()]
+        dic['saves'] = [r.as_json() for r in self.saves.all()]
         return dic
 
 
