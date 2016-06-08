@@ -32,6 +32,10 @@ var PostList = React.createClass({
     });
   },
 
+  likeHandler: function(workid){
+
+  }
+
   loadPostsFromServer: function(){
     //ajax;
     var itself = this;
@@ -113,22 +117,37 @@ var PostList = React.createClass({
 });
 
 var WorkBox = React.createClass({
+  showComment: function(){
+
+  },
+  
   render: function() {
     var work = this.props.work;
     return (
       <div className="workBox">
-        <div>
-          <a href={"/profile/"+work.user.id}>User: {work.user.username}</a>
-          <button className="delWorkBtn" onClick={this.props.onDelete}>
-            Delete
-          </button>
-          <p>{work.bio}</p>
-          <img className="workImg"
-                src={"/get_work_img/"+work.id}/>
+        <div className="workItem">
+          <div className="workUserBox">
+            <img className="uImgCircleSmall"
+              src={"/user_photo/"+work.user.username}/>
+            <a href={"/profile/"+work.user.id}>{work.user.username}</a>
+            <button className="delWorkBtn" onClick={this.props.onDelete}></button>
+          </div>
+
+          <div>
+            <p className="bio">{work.bio}</p>
+            <img className="workImg" src={"/get_work_img/"+work.id}/>
+          </div>
+
+          <div>
+            <button className="likeBtn" onClick={this.props.onLike}>
+              <i className="material-icons">thumb_up</i>
+            </button>
+            <button className="btn">
+              <i className="material-icons">comment</i>
+            </button>
+          </div>
         </div>
-        <div>
-          <CommentList workid={work.id}/>
-        </div>
+        <CommentList workid={work.id}/>
       </div>
     );
   }

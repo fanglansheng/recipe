@@ -1,0 +1,89 @@
+$work-content-w: 96%;
+$work-cnt-padding: 2%;
+$workbox-w: 250px;
+$u-img-s: 35px;
+$u-img-s-margin: 5px;
+
+
+.btn{
+    margin: $u-img-s-margin;
+    cursor: pointer;
+    background-color: white;
+    border: none;
+    color: lightsteelblue;
+}
+    
+.workUserBox{
+    width: $work-content-w;
+    height: 45px;
+    padding: $work-cnt-padding;
+
+    img{
+        float: left;
+        width: $u-img-s;
+        height: $u-img-s;
+        border-radius: $u-img-s;
+        margin: $u-img-s-margin;
+    }
+
+    a {
+        float: left;
+        line-height: 35px;
+        margin: 5px 0px;
+        text-decoration: none;
+        color: #016268;
+        font-size: 20px;
+
+        &:hover{
+            color: #09BBBB;
+        }
+
+        &:visited{
+            color: #016268;
+        }
+    }
+
+
+}
+        
+
+.delWorkBtn{
+    @extend .btn;
+    float: right;
+    &::before{
+        content: "x";
+        font-size: 15px;
+    }
+}
+
+.bio{
+    margin: 0 $work-cnt-padding*2;
+}
+
+.workImg{
+    float: left;
+    width: $work-content-w;
+    height: 100%;
+    border-radius: 6px;
+    margin: $work-cnt-padding;
+    display: block;
+    top: 0;
+ }   
+
+.workBox{
+    width: $workbox-w;
+    height: 100%;
+    margin: 10px;
+    background-color: white;//#F8F8F8;
+}
+
+.likeBtn{
+    @extend .btn;
+    width: 30px;
+    padding: 0;
+
+    &:hover{
+        color: #EC115E;
+    }
+}
+

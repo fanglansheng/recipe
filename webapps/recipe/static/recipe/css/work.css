@@ -1,16 +1,60 @@
+.btn, .delWorkBtn, .likeBtn {
+  margin: 5px;
+  cursor: pointer;
+  background-color: white;
+  border: none;
+  color: lightsteelblue; }
+
+.workUserBox {
+  width: 96%;
+  height: 45px;
+  padding: 2%; }
+  .workUserBox img {
+    float: left;
+    width: 35px;
+    height: 35px;
+    border-radius: 35px;
+    margin: 5px; }
+  .workUserBox a {
+    float: left;
+    line-height: 35px;
+    margin: 5px 0px;
+    text-decoration: none;
+    color: #016268;
+    font-size: 20px; }
+    .workUserBox a:hover {
+      color: #09BBBB; }
+    .workUserBox a:visited {
+      color: #016268; }
+
+.delWorkBtn {
+  float: right; }
+  .delWorkBtn::before {
+    content: "x";
+    font-size: 15px; }
+
+.bio {
+  margin: 0 4%; }
+
 .workImg {
-  width: 200px;
-  height: 200px;
+  float: left;
+  width: 96%;
+  height: 100%;
   border-radius: 6px;
-  margin: 30px 20px 0;
+  margin: 2%;
   display: block;
-  top: 0;
-  float: left; }
+  top: 0; }
 
 .workBox {
   width: 250px;
   height: 100%;
   margin: 10px;
-  background-color: #F8F8F8; }
+  background-color: white; }
+
+.likeBtn {
+  width: 30px;
+  padding: 0; }
+  .likeBtn:hover {
+    color: #EC115E; }
 
 /*# sourceMappingURL=work.css.map */
