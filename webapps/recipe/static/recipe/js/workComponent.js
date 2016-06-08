@@ -34,7 +34,7 @@ var PostList = React.createClass({
 
   likeHandler: function(workid){
 
-  }
+  },
 
   loadPostsFromServer: function(){
     //ajax;
@@ -120,7 +120,7 @@ var WorkBox = React.createClass({
   showComment: function(){
 
   },
-  
+
   render: function() {
     var work = this.props.work;
     return (

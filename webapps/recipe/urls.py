@@ -32,6 +32,8 @@ urlpatterns = [
     url(r'^get_work_img/(?P<work_id>[0-9]+)$', recipe.views_home.get_work_photo, name='work_img'),
     url(r'^get_all_works$', recipe.views_home.get_works, name='all_works'),
     url(r'^get_work_changes/(?P<maxEntry>\d+)$', recipe.views_home.get_work_changes, name='work_changes'),
+    url(r'^like_work/(?P<work_id>[0-9]+)$', recipe.views_home.like_work),
+    url(r'^unlike_work/(?P<work_id>[0-9]+)$', recipe.views_home.unlike_work),
 
     # comments operation:
     url(r'^post_comment/(?P<work_id>[0-9]+)$', recipe.views_home.add_comment, name='add_work_comment'),

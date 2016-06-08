@@ -177,6 +177,36 @@ def delete_work_comment(request, comment_id):
     data = json.dumps(dic)
     return HttpResponse(data, content_type='application/json')
 
+@transaction.atomic
+def like_work(request, work_id):
+    dic = {}
+    if not request.user:
+        dic['type'] = 'error'
+        dic['errors'] = 'Please login or register.'
+        data = json.dumps(dic)
+        return HttpResponse(data, content_type='application/json')
+
+    work = get_object_or_404(Work, id=work_id)
+    current_user = request.user
+    if current_user.liked_work.filter(id=work_id).count() > 0:
+        dic['type'] = 'error'
+        dic['errors'] = 'Duplicate favorite.'
+    else:
+        current_user.liked_work.add(work)
+        dic['type'] = 'success'
+        dic['album'] = work.as_json()
+    data = json.dumps(dic)
+    return HttpResponse(data, content_type='application/json')
+
+def unlike_work(request, work_id):
+    dic = {}
+    user = request.user
+    work = get_object_or_404(Work, id=work_id)
+    user.liked_work.remove(work)
+    dic['type'] = 'success'
+    dic['album'] = work.as_json()
+    data = json.dumps(dic)
+    return HttpResponse(data, content_type='application/json')
 
 def get_all_recipes(request):
     dic = {}

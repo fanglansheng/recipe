@@ -8,6 +8,8 @@ class WorkTestCase(TestCase):
         user = User.objects.create(username='test')
         user.set_password('test')
         user.save()
+        profile = Profile(owner=user)
+        profile.save()
 
         client = Client()
         client.login(username='test',password='test')
@@ -39,5 +41,13 @@ class WorkTestCase(TestCase):
         #delete a comment
         response = client.post('/delete_work_comment/'+str(work.id))
         self.assertTrue(WorkComments.objects.all().count() == 0)
+
+        #like a work
+        self.assertTrue(user.liked_work.all().count() == 0)
+        response = client.get('/like_work/'+str(work.id))
+        response = client.get('/like_work/'+str(work.id))
+        self.assertTrue(user.liked_work.all().count() == 1)
+        response = client.get('/unlike_work/'+str(work.id))
+        self.assertTrue(user.liked_work.all().count() == 0)
 
 
