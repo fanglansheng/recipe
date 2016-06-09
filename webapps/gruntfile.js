@@ -9,10 +9,13 @@ module.exports = function(grunt) {
     // Task configuration goes here.
     sass: {
       main: {
-        files: {
-          'recipe/static/recipe/css/work.css': 'recipe/static/recipe/css/work.scss'
-          'recipe/static/recipe/css/nav.css': 'recipe/static/recipe/css/nav.scss'
-        }
+        files: [{
+          expand: true,
+          cwd: 'recipe/static/recipe/scss',
+          src: '**/*.scss',
+          dest: 'recipe/static/recipe/css',
+          ext: '.css'
+        }]
       },
       // deploy: {
       //   options: {
@@ -36,7 +39,7 @@ module.exports = function(grunt) {
 
     watch: {
       sass: {
-        files: ['recipe/static/recipe/css/*.scss'],
+        files: ['recipe/static/recipe/scss/*.scss'],
         tasks: ['sass'],
       },
     },

@@ -123,3 +123,43 @@ body {
     float: right; }
   #workform input[type="file"] {
     width: 70%; }
+
+.verticalCenter, .navBox .navbar .logo, .navBox .navbar .search, .navBox .navbar .navProfile {
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%); }
+
+.content {
+  width: 1060px;
+  margin-left: auto;
+  margin-right: auto; }
+
+.navBox {
+  background: white;
+  width: 100%; }
+  .navBox .navbar {
+    height: 50px;
+    margin-bottom: 10px; }
+    .navBox .navbar .logo {
+      float: left; }
+    .navBox .navbar .search {
+      width: 70%;
+      float: left; }
+      .navBox .navbar .search input[type=text] {
+        width: 130px;
+        height: 20px;
+        font-size: 20px;
+        padding: 5px;
+        border-radius: 20px;
+        border: 1px solid lightgrey;
+        -webkit-transition: width 0.4s ease-in-out;
+        transition: width 0.4s ease-in-out; }
+        .navBox .navbar .search input[type=text]:focus {
+          width: 100%;
+          outline: none; }
+    .navBox .navbar .navProfile {
+      float: right; }
+      .navBox .navbar .navProfile img {
+        border-radius: 35px;
+        width: 35px;
+        height: 100%; }

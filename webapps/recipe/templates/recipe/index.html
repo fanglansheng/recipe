@@ -12,26 +12,32 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
       rel="stylesheet">
     <link type="text/css" href="/static/recipe/css/work.css" rel="stylesheet" >
+    <link type="text/css" href="/static/recipe/css/nav.css" rel="stylesheet" >
 
   </head>
   <body>
-    <div class="navbar">
-      <div class="logo">Logo</div>
-      <div class="search"></div>
-      {% if user %}
-      <div class="navProfile">
-        <span>{{user.username}}</span>
-        <img src="{% url 'user_img' user %}"/>
+    <div class="navBox">
+      <div class="navbar content">
+        <div class="logo">Logo</div>
+        <div class="search">
+          <input type="text" name="search" placeholder="Search..">
+        </div>
+        {% if user %}
+        <div class="navProfile">
+          <span>{{user.username}}</span>
+          <img src="{% url 'user_img' user %}"/>
+        </div>
+        {% else %}
+        <p><a href="{% url 'login' %}">Login</a></p>
+        <p><a href="{% url 'register' %}">Register</a></p>
+        {% endif %}
       </div>
-      {% else %}
-      <p><a href="{% url 'login' %}">Login</a></p>
-      <p><a href="{% url 'register' %}">Register</a></p>
-      {% endif %}
     </div>
 
-
-    <div id="recipeArea"></div>
-    <div id="workArea"></div>
+    <div class="content">
+      <div id="recipeArea"></div>
+      <div id="workArea"></div>
+    <div>
     
     <script src="/static/recipe/js/recipeStreamComponent.js" type="text/babel"></script>
     <script src="/static/recipe/js/workComponent.js" type="text/babel"></script>
