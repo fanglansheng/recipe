@@ -42,7 +42,7 @@ urlpatterns = [
 
     # user operation:
     url(r'^get_user_profile/(?P<user_id>[0-9]+)$', recipe.views_user.get_user_profile),
-    url(r'^user_photo/(?P<username>\w+)$', recipe.views_user.get_user_image),
+    url(r'^user_photo/(?P<username>\w+)$', recipe.views_user.get_user_image, name='user_img'),
     url(r'^follow/(?P<username>\w+)$', recipe.views_user.follow),
     url(r'^unfollow/(?P<username>\w+)$', recipe.views_user.unfollow),
 

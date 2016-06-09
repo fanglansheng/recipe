@@ -1,9 +1,15 @@
-$work-content-w: 96%;
-$work-cnt-padding: 2%;
-$workbox-w: 250px;
+$work-content-w: 94%;
+$work-cnt-padding: 3%;
+$workbox-w: 280px;
 $u-img-s: 35px;
 $u-img-s-margin: 5px;
+$font16: 16px;
+$font20: 20px;
 
+
+body{
+    background: #F8F8F8;
+}
 
 .btn{
     margin: $u-img-s-margin;
@@ -11,6 +17,9 @@ $u-img-s-margin: 5px;
     background-color: white;
     border: none;
     color: lightsteelblue;
+    &:focus{
+        outline: none;
+    }
 }
     
 .workUserBox{
@@ -58,23 +67,23 @@ $u-img-s-margin: 5px;
 
 .bio{
     margin: 0 $work-cnt-padding*2;
-}
-
-.workImg{
-    float: left;
-    width: $work-content-w;
-    height: 100%;
-    border-radius: 6px;
-    margin: $work-cnt-padding;
-    display: block;
-    top: 0;
- }   
+}  
 
 .workBox{
     width: $workbox-w;
     height: 100%;
     margin: 10px;
     background-color: white;//#F8F8F8;
+
+    .workImg{
+        float: left;
+        width: 90%;
+        height: 100%;
+        border-radius: 6px;
+        margin: 5%;
+        display: block;
+        top: 0;
+    } 
 }
 
 .likeBtn{
@@ -87,3 +96,83 @@ $u-img-s-margin: 5px;
     }
 }
 
+.commentForm{
+    border-bottom: 1px solid lightgrey;
+
+    textarea{
+        width: 83%;
+        height: 20px;
+        border-radius: 3px;
+        border-color: rgb(244, 67, 54);
+        float: left;
+    }
+
+    input{
+        width: 10%;
+        height: 26px;
+        padding: 3px;
+        background-color: #F44336;
+        color: white;
+        border: none;
+        border-radius: 3px;
+        margin: 0% 2%;
+        cursor: pointer;
+        font-size: 17px;
+        // float: right;
+    }
+}
+
+.commentItem{
+    p{
+        margin: 10px 0px;
+        width: 85%;
+        line-height: 22px;
+        font-size: $font16;
+
+        a {
+            text-decoration: none;
+            color: #016268;
+            font-weight: 600;
+            // font-size: 20px;
+
+            &:hover{
+                color: #09BBBB;
+            }
+
+            &:visited{
+                color: #016268;
+            }
+        }
+    }
+}
+
+#workform{
+    width: $workbox-w;
+    margin: 10px;
+    background: white;
+    box-shadow: #EEEEEE 6px 6px;
+    textarea{
+        width: 85%;
+        margin: 4%;
+        height: 45px;
+        border-radius: 3px;
+        border: 0;
+        padding: 3%;
+        background: whitesmoke;
+    }
+    #submit-work{
+        height: 26px;
+        padding: 0 15px;
+        background-color: #F44336;
+        color: white;
+        border: none;
+        border-radius: 20px;
+        margin: 0% 2%;
+        cursor: pointer;
+        font-size: 12px;
+        float: right;
+    }
+    input[type="file"]{
+        width: 70%;
+    }
+}

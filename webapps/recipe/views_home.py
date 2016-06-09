@@ -29,8 +29,14 @@ ch.setFormatter(formatter)
 logger.addHandler(ch)
 
 # home that can be accessed by all people even without logging in
-def home(request):    
-    return render(request, 'recipe/index.html')
+def home(request):
+    dic = {}
+    if request.user:
+        dic['user'] = request.user
+    else:
+        dic['user'] = {}
+
+    return render(request, 'recipe/index.html', dic)
 
 @login_required
 def get_works(request):
@@ -194,7 +200,7 @@ def like_work(request, work_id):
     else:
         current_user.liked_work.add(work)
         dic['type'] = 'success'
-        dic['album'] = work.as_json()
+        dic['work'] = work.as_json()
     data = json.dumps(dic)
     return HttpResponse(data, content_type='application/json')
 
@@ -204,7 +210,7 @@ def unlike_work(request, work_id):
     work = get_object_or_404(Work, id=work_id)
     user.liked_work.remove(work)
     dic['type'] = 'success'
-    dic['album'] = work.as_json()
+    dic['work'] = work.as_json()
     data = json.dumps(dic)
     return HttpResponse(data, content_type='application/json')
 

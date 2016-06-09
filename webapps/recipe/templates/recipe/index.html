@@ -13,39 +13,26 @@
       rel="stylesheet">
     <link type="text/css" href="/static/recipe/css/work.css" rel="stylesheet" >
 
-
-
   </head>
   <body>
-    <p><a href="{% url 'login' %}">Login</a></p>
-    <p><a href="{% url 'register' %}">Register</a></p>
-
-    <!-- <div id="formdiv">
-      <form enctype="multipart/form-data" action={% url 'add_work' %} method="post" id="workform">
-        <table>
-        {{ work_form }}
-        </table>
-        {% csrf_token %}
-        <input id="submit-work" type="submit" value="Share" />
-      </form>
-    </div> -->
-
-    {% if user %}
-      <div id="works-list">
-        {% for work in user_works %}
-          <p> {{work.user.username}} : {{work.bio}}  </p>
-          <img src="{% url 'work_img' work.id %}"/>
-        {% endfor %}
+    <div class="navbar">
+      <div class="logo">Logo</div>
+      <div class="search"></div>
+      {% if user %}
+      <div class="navProfile">
+        <span>{{user.username}}</span>
+        <img src="{% url 'user_img' user %}"/>
       </div>
-    {% endif %}
-    ========================================
-
-
-
+      {% else %}
+      <p><a href="{% url 'login' %}">Login</a></p>
+      <p><a href="{% url 'register' %}">Register</a></p>
+      {% endif %}
+    </div>
 
 
     <div id="recipeArea"></div>
     <div id="workArea"></div>
+    
     <script src="/static/recipe/js/recipeStreamComponent.js" type="text/babel"></script>
     <script src="/static/recipe/js/workComponent.js" type="text/babel"></script>
     

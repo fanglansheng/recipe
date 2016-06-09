@@ -33,7 +33,20 @@ var PostList = React.createClass({
   },
 
   likeHandler: function(workid){
+    $.get("/like_work/"+workid)
+    .done(function(data) {
+      if(data.type=="success"){
+        itself.state.allWork.forEach(function(c,i,input){
+          if(c.id == workid){
+            input[i]=data.work;
+            itself.setState({ allWork: input });
+          }
+        });
+      }
+      else if(data.type=="errors"){
 
+      }
+    });
   },
 
   loadPostsFromServer: function(){
@@ -117,12 +130,24 @@ var PostList = React.createClass({
 });
 
 var WorkBox = React.createClass({
-  showComment: function(){
+  onShowComment: function(){
+    var isShow = this.state.showCmt;
+    this.setState({showCmt:!isShow});
+  },
 
+  onLike : function(){
+    var isLiked = this.state.liked;
+    this.setState({liked:!isLiked});
+  },
+
+  getInitialState: function(){
+    return {liked:false, showCmt:false};
   },
 
   render: function() {
     var work = this.props.work;
+    var commentBox = this.state.showCmt ? 
+      <CommentList isShow={this.state.showCmt} workid={work.id}/>:null;
     return (
       <div className="workBox">
         <div className="workItem">
@@ -142,12 +167,12 @@ var WorkBox = React.createClass({
             <button className="likeBtn" onClick={this.props.onLike}>
               <i className="material-icons">thumb_up</i>
             </button>
-            <button className="btn">
+            <button className="btn" onClick={this.onShowComment}>
               <i className="material-icons">comment</i>
             </button>
           </div>
         </div>
-        <CommentList workid={work.id}/>
+        {commentBox}
       </div>
     );
   }
@@ -172,6 +197,7 @@ var WorkForm = React.createClass({
     formData.append("bio", this.state.workbio);
     formData.append("csrfmiddlewaretoken", $('input[name=csrfmiddlewaretoken]').val());
 
+    this.setState({"workbio":""});
     var self = this;
     // make ajax request
     $.ajax({ 
@@ -202,14 +228,14 @@ var WorkForm = React.createClass({
   },
 
   getInitialState: function(){
-    return { workbio: "What did you cook?" };
+    return { workbio: "" };
   },
 
   render: function(){
     return (
       <form enctype="multipart/form-data" method="post" id="workform">
         <textarea className="workformText" value={this.state.workbio} 
-          onChange={this.changeHandler}></textarea>
+          onChange={this.changeHandler} placeholder="What did you cook?"></textarea>
         <input ref="workfile" name="img" type="file"/>
         <input id="submit-work" type="submit" value="Share" onClick={this.addWork}/>
         <DjangoCSRFToken/>
@@ -221,6 +247,7 @@ var WorkForm = React.createClass({
 
 var CommentList = React.createClass({
   loadCommentsFromServer: function(){
+    if(!this.props.isShow) return;
     var itself = this;
     $.get("/get_comments_by_work/"+this.props.workid)
     .done(function(data) {
@@ -266,15 +293,18 @@ var CommentList = React.createClass({
     var self = this;
     var allComments = this.state.allComments.map(function(c, i){
       var deleteBtn = c.user.username != self.state.user ? null : (
-          <button className="delCommentBtn"
-            onClick={self.deleteHandler.bind(self,c.id)}>x
+          <button className="delWorkBtn"
+            onClick={self.deleteHandler.bind(self,c.id)}>
           </button>
         );
 
       return(
         <div key={i} className="commentItem">
-          <p> {c.user.username} : {c.content} </p>
           {deleteBtn}
+          <p>
+            <a href={"/profile/"+c.user.username}>{c.user.username}: </a>
+            {c.content}
+          </p>
         </div>
       );
     });
@@ -309,6 +339,7 @@ var CommentForm = React.createClass({
     formData.append("content", this.state.comment);
     formData.append("csrfmiddlewaretoken", csrf);
 
+    this.setState({"comment":""});
     var self = this;
     $.ajax({ 
         type: 'POST', 
@@ -343,13 +374,13 @@ var CommentForm = React.createClass({
 
   render: function() {
     return (
-      <form enctype="multipart/form-data" method="post">
-        <textarea className="commentformText"
+      <form className="commentForm" enctype="multipart/form-data" method="post">
+        <textarea
           value={this.state.comment} 
           onChange={this.changeHandler}>
         </textarea>
-        <input className="makeCommentBtn" type="submit"
-          value="Reply" onClick={this.addComment}/>
+        <input className="material-icons" type="submit"
+          value="send" onClick={this.addComment}/>
         <DjangoCSRFToken ref="csrfToken"/>
       </form>
     );

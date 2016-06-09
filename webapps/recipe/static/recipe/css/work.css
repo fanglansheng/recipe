@@ -1,14 +1,19 @@
+body {
+  background: #F8F8F8; }
+
 .btn, .delWorkBtn, .likeBtn {
   margin: 5px;
   cursor: pointer;
   background-color: white;
   border: none;
   color: lightsteelblue; }
+  .btn:focus, .delWorkBtn:focus, .likeBtn:focus {
+    outline: none; }
 
 .workUserBox {
-  width: 96%;
+  width: 94%;
   height: 45px;
-  padding: 2%; }
+  padding: 3%; }
   .workUserBox img {
     float: left;
     width: 35px;
@@ -34,27 +39,85 @@
     font-size: 15px; }
 
 .bio {
-  margin: 0 4%; }
-
-.workImg {
-  float: left;
-  width: 96%;
-  height: 100%;
-  border-radius: 6px;
-  margin: 2%;
-  display: block;
-  top: 0; }
+  margin: 0 6%; }
 
 .workBox {
-  width: 250px;
+  width: 280px;
   height: 100%;
   margin: 10px;
   background-color: white; }
+  .workBox .workImg {
+    float: left;
+    width: 90%;
+    height: 100%;
+    border-radius: 6px;
+    margin: 5%;
+    display: block;
+    top: 0; }
 
 .likeBtn {
   width: 30px;
   padding: 0; }
   .likeBtn:hover {
     color: #EC115E; }
+
+.commentForm {
+  border-bottom: 1px solid lightgrey; }
+  .commentForm textarea {
+    width: 83%;
+    height: 20px;
+    border-radius: 3px;
+    border-color: #f44336;
+    float: left; }
+  .commentForm input {
+    width: 10%;
+    height: 26px;
+    padding: 3px;
+    background-color: #F44336;
+    color: white;
+    border: none;
+    border-radius: 3px;
+    margin: 0% 2%;
+    cursor: pointer;
+    font-size: 17px; }
+
+.commentItem p {
+  margin: 10px 0px;
+  width: 85%;
+  line-height: 22px;
+  font-size: 16px; }
+  .commentItem p a {
+    text-decoration: none;
+    color: #016268;
+    font-weight: 600; }
+    .commentItem p a:hover {
+      color: #09BBBB; }
+    .commentItem p a:visited {
+      color: #016268; }
+
+#workform {
+  width: 280px;
+  margin: 10px;
+  background: white;
+  box-shadow: #EEEEEE 6px 6px; }
+  #workform textarea {
+    width: 85%;
+    margin: 4%;
+    height: 45px;
+    border-radius: 3px;
+    border: 0;
+    padding: 3%;
+    background: whitesmoke; }
+  #workform #submit-work {
+    height: 26px;
+    padding: 0 15px;
+    background-color: #F44336;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    margin: 0% 2%;
+    cursor: pointer;
+    font-size: 12px;
+    float: right; }
 
 /*# sourceMappingURL=work.css.map */
