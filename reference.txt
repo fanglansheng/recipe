@@ -25,3 +25,15 @@ http://stackoverflow.com/questions/31284169/uncaught-error-parse-error-line-38-a
 1.Django Template Variables and Javascript
 http://stackoverflow.com/questions/298772/django-template-variables-and-javascript
 
+*********** Grunt: **************
+1.Simplifying your Django Frontend Tasks with Grunt
+https://lincolnloop.com/blog/simplifying-your-django-frontend-tasks-grunt/
+
+2.User grunt-shell for Django
+✨npm install --save-dev grunt-shell 
+http://stackoverflow.com/questions/21521125/getting-django-runserver-dev-logging-to-output-via-grunt
+
+3. Concurrent
+npm install --save-dev grunt-concurrent
+https://github.com/sindresorhus/grunt-concurrent
+https://github.com/gruntjs/grunt-contrib-watch

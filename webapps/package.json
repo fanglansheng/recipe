@@ -1,0 +1,19 @@
+{
+  "name": "webapps",
+  "version": "1.0.0",
+  "description": "recipe project",
+  "main": "gruntfile.js",
+  "dependencies": {},
+  "devDependencies": {
+    "grunt": "^1.0.1",
+    "grunt-concurrent": "^2.3.0",
+    "grunt-contrib-watch": "^1.0.0",
+    "grunt-sass": "^1.2.0",
+    "grunt-shell": "^1.3.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Chuan Zhou, Wanyan Zheng",
+  "license": "ISC"
+}

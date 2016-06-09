@@ -119,5 +119,5 @@ body {
     cursor: pointer;
     font-size: 12px;
     float: right; }
-
-/*# sourceMappingURL=work.css.map */
+  #workform input[type="file"] {
+    width: 70%; }
