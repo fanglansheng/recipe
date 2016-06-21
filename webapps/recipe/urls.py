@@ -24,7 +24,7 @@ urlpatterns = [
     # url(r'^admin/', include(admin.site.urls)),
     # page operation
     url(r'^$', recipe.views_home.home),
-    url(r'^profile/(?P<user_id>[0-9]+)$', recipe.views_user.profile),
+    url(r'^profile/(?P<username>\w+)$', recipe.views_user.profile, name='userprofile' ),
 
     # works operations:
     url(r'^post_work$', recipe.views_home.add_work, name='add_work'),

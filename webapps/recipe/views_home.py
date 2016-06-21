@@ -43,7 +43,7 @@ def get_works(request):
     dic = {}
     maxCount = WorkLog.get_max_id()
     works = Work.get_friends_work(request.user)
-    dic['works'] = [e.as_json() for e in works]
+    dic['works'] = [e.as_json(request.user) for e in works]
     dic['maxCount'] = maxCount
     data = json.dumps(dic)
     return HttpResponse(data, content_type='application/json')
@@ -64,7 +64,7 @@ def get_work_photo(request, work_id):
 def get_work_changes(request, maxEntry=-1):
     maxCount = WorkLog.get_max_id();
     works = Work.get_changes(maxEntry)
-    works = [e.as_json() for e in works]
+    works = [e.as_json(request.user) for e in works]
     dic = {"maxCount" : maxCount, "works": works}
     data = json.dumps(dic)
     return HttpResponse(data, content_type='application/json')
@@ -95,7 +95,7 @@ def add_work(request):
         workLog = WorkLog(item=work, op='Add')
         workLog.save()
         dic['type'] = 'success'
-        dic['new_work'] = work.as_json()
+        dic['new_work'] = work.as_json(request.user)
         data = json.dumps(dic)
     return HttpResponse(data, content_type='application/json')
 
@@ -200,7 +200,7 @@ def like_work(request, work_id):
     else:
         current_user.liked_work.add(work)
         dic['type'] = 'success'
-        dic['work'] = work.as_json()
+        dic['work'] = work.as_json(request.user)
     data = json.dumps(dic)
     return HttpResponse(data, content_type='application/json')
 
@@ -210,7 +210,7 @@ def unlike_work(request, work_id):
     work = get_object_or_404(Work, id=work_id)
     user.liked_work.remove(work)
     dic['type'] = 'success'
-    dic['work'] = work.as_json()
+    dic['work'] = work.as_json(request.user)
     data = json.dumps(dic)
     return HttpResponse(data, content_type='application/json')
 

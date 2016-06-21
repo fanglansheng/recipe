@@ -27,9 +27,9 @@ ch.setFormatter(formatter)
 # add ch to logger
 logger.addHandler(ch)
 
-def profile(request, user_id):
+def profile(request, username):
     context = {}
-    context['userid'] = user_id
+    context['username'] = username
     return render(request, 'recipe/profile.html', context)
 
 def get_user_profile(request, user_id):

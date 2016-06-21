@@ -38,6 +38,7 @@ class Recipe(models.Model):
         dic['bio'] = self.bio
         dic['img'] = self.img.url
         dic['save'] = len(self.saves.all())
+        dic['tried'] = len(self.recipe_work.all())
         return dic
     # @staticmethod
     # def get_hot_recipes():
@@ -71,13 +72,13 @@ class Work(models.Model):
     like = models.ManyToManyField(User,
                             related_name = "liked_work", blank=True)
     recipe = models.ForeignKey(Recipe,
-                            related_name = "recipe", blank=True, null=True)
+                            related_name = "recipe_work", blank=True, null=True)
     deleted = models.BooleanField(default=False)
 
     def __unicode__(self):
         return self.user.username
 
-    def as_json(self):
+    def as_json(self,user):
         # arr = serializers.serialize('json',[self])
         # # get rid of [], because serialize only works for list, and serialize()
         # # is stupid
@@ -89,8 +90,8 @@ class Work(models.Model):
         dic['bio'] = self.bio
         dic['image'] = self.img.url
         dic['likes'] = len(self.like.all())
+        dic['hasLiked'] = (len(Work.objects.filter(like=user)) == 1)
         dic['recipe'] = self.recipe.as_json() if self.recipe is not None else ''
-
         # dic['comment'] = [c.to_json() for c in self.album_comments.all()]
         dic['deleted'] = self.deleted
         return dic

@@ -11,7 +11,7 @@ var RecipeBox = React.createClass({
   },
 
   getInitialState: function(){
-    return {allRecipes:[]};
+    return { allRecipes:[] };
   },
 
   componentDidMount: function(){
@@ -22,25 +22,74 @@ var RecipeBox = React.createClass({
   render: function(){
     var itself = this;
     var allRecipes = this.state.allRecipes.map(function(recipe, i){
-      
       return(
         <div key={i} className="recipeItem">
-          <img src={"/get_recipe_img/"+recipe.id}/>
-          <img src={"/user_photo/"+recipe.user.id}/>
-          <div>{recipe.user.username}</div>
-          <div> {recipe.save.length} saved</div>
-          <div> {recipe.name} </div>
+          <div className="recipeThumb">
+            <div className="info-overlay">
+            {recipe.save} Saved | {recipe.tried} Tried
+            </div>
+            <img src={"/get_recipe_img/"+recipe.id}/>
+          </div>
+          
+          <div className="recipeInfo">
+            <h4>{recipe.name}</h4>
+            <img className="rUserImg" src={"/user_photo/"+recipe.user.username}/>
+            <a href={"/profile/"+recipe.user.id}>{recipe.user.username}</a>
+          </div>
         </div>
       );
     });
 
     return (
-      <div className="recipeBox"> 
+      <div className="recipeBox">
+        <h4>Hot Recipes</h4>
         { allRecipes }
       </div>
     );
   }
 });
+
+var CategoryBox = React.createClass({
+  initCategory: function(){
+
+    this.setState({
+      allCates: [
+        {title:"Vegetable", icon:"category-icon vegetable"},
+        {title:"Meat", icon:"category-icon steak"},
+        {title:"SeaFood", icon:"category-icon shrimp"},
+        {title:"Soup", icon:"category-icon soup"},
+        {title:"Egg", icon:"category-icon egg"},
+        {title:"Bakery", icon:"category-icon doughnut"}]
+    });
+  },
+  getInitialState: function(){
+    return { allCates:[] };
+  },
+  componentDidMount: function(){
+    this.initCategory();
+  },
+  render: function(){
+    var allCates = this.state.allCates.map(function(cat, i){
+      return(
+        <li key={i}>
+          <a href="/">
+          <div className={cat.icon}></div>{cat.title}
+          </a>
+        </li>
+      );
+    });
+    return (
+      <div className="categoryBox">
+        <ul>{allCates}</ul>
+      </div>
+    );
+  }
+});
+
+var categoryInstance = ReactDOM.render(
+  <CategoryBox/>,
+  document.getElementById('categoryArea')
+);
 
 var recipeAreaInstance = ReactDOM.render(
   <RecipeBox/>,

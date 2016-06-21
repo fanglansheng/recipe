@@ -1,9 +1,23 @@
 body {
   margin: 0;
-  background: #F8F8F8; }
+  background: #F8F8F8;
+  font-family: "Roboto Mono"; }
+
+p {
+  font-family: 'Gudea', sans-serif; }
+
+.verticalCenter {
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%); }
+
+.content {
+  width: 1060px;
+  margin-left: auto;
+  margin-right: auto;
+  overflow: hidden; }
 
 .btn, .delWorkBtn, .likeBtn {
-  margin: 5px;
   cursor: pointer;
   background-color: white;
   border: none;
@@ -11,27 +25,42 @@ body {
   .btn:focus, .delWorkBtn:focus, .likeBtn:focus {
     outline: none; }
 
-.workUserBox {
-  width: 94%;
-  height: 45px;
-  padding: 3%; }
-  .workUserBox img {
-    float: left;
-    width: 35px;
-    height: 35px;
-    border-radius: 35px;
-    margin: 5px; }
-  .workUserBox a {
-    float: left;
-    line-height: 35px;
-    margin: 5px 0px;
+.username {
+  float: left;
+  line-height: 35px;
+  margin: 5px 0px;
+  text-decoration: none;
+  color: #016268;
+  font-size: 20px; }
+  .username:hover {
+    color: #09BBBB; }
+  .username:visited {
+    color: #016268; }
+
+.redBtn, .createBtn, #workform #submit-work {
+  background-color: #F44336;
+  color: white;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 16px;
+  text-align: center;
+  height: 30px; }
+  .redBtn:hover, .createBtn:hover, #workform #submit-work:hover {
+    background-color: #FF675C; }
+  .redBtn:focus, .createBtn:focus, #workform #submit-work:focus {
+    outline: none; }
+
+#workArea {
+  float: left; }
+
+.createBtn {
+  margin: 20px 10px;
+  height: 36px; }
+  .createBtn a {
+    line-height: 36px;
     text-decoration: none;
-    color: #016268;
-    font-size: 20px; }
-    .workUserBox a:hover {
-      color: #09BBBB; }
-    .workUserBox a:visited {
-      color: #016268; }
+    color: white; }
 
 .delWorkBtn {
   float: right; }
@@ -39,61 +68,75 @@ body {
     content: "x";
     font-size: 15px; }
 
-.bio {
-  margin: 0 6%; }
-
-.workBox {
+.postList {
   width: 280px;
   height: 100%;
   margin: 10px;
-  background-color: white; }
-  .workBox .workImg {
-    float: left;
-    width: 90%;
+  margin-top: 20px;
+  box-sizing: border-box;
+  padding: 14px;
+  background-color: white;
+  box-shadow: #EEEEEE 6px 6px; }
+
+.workBox {
+  margin-bottom: 20px;
+  border-bottom: 1px solid #e2e2e2; }
+  .workBox .workItem .workUserBox {
+    height: 35px; }
+    .workBox .workItem .workUserBox img {
+      float: left;
+      width: 35px;
+      height: 35px;
+      border-radius: 35px;
+      margin-right: 5px; }
+    .workBox .workItem .workUserBox a {
+      margin: 0; }
+  .workBox .workItem .workImg {
+    width: 100%;
     height: 100%;
     border-radius: 6px;
-    margin: 5%;
     display: block;
     top: 0; }
+  .workBox .workItem .workBtnBox {
+    margin-top: 10px;
+    margin-bottom: 10px; }
 
 .likeBtn {
-  width: 30px;
   padding: 0; }
   .likeBtn:hover {
     color: #EC115E; }
 
-.commentForm {
-  border-bottom: 1px solid lightgrey; }
-  .commentForm textarea {
-    width: 83%;
+.commentBox .commentForm {
+  overflow: hidden;
+  margin-bottom: 10px; }
+  .commentBox .commentForm textarea {
+    width: 75%;
     height: 20px;
     border-radius: 3px;
     border-color: #f44336;
     float: left; }
-  .commentForm input {
-    width: 10%;
+  .commentBox .commentForm input[type="submit"] {
     height: 26px;
-    padding: 3px;
     background-color: #F44336;
     color: white;
     border: none;
     border-radius: 3px;
-    margin: 0% 2%;
     cursor: pointer;
-    font-size: 17px; }
+    font-size: 16px;
+    float: right; }
 
-.commentItem p {
+.commentBox .commentItem p {
   margin: 10px 0px;
   width: 85%;
   line-height: 22px;
   font-size: 16px; }
-  .commentItem p a {
+  .commentBox .commentItem p a {
     text-decoration: none;
     color: #016268;
     font-weight: 600; }
-    .commentItem p a:hover {
+    .commentBox .commentItem p a:hover {
       color: #09BBBB; }
-    .commentItem p a:visited {
+    .commentBox .commentItem p a:visited {
       color: #016268; }
 
 #workform {
@@ -111,15 +154,81 @@ body {
     padding: 3%;
     background: whitesmoke; }
   #workform #submit-work {
-    height: 26px;
     padding: 0 15px;
-    background-color: #F44336;
-    color: white;
-    border: none;
-    border-radius: 20px;
     margin: 0 5% 0 0;
-    cursor: pointer;
     font-size: 12px;
     float: right; }
   #workform input[type="file"] {
     width: 70%; }
+
+#recipeArea {
+  min-width: 300px;
+  width: 70%;
+  float: left; }
+
+.recipeItem {
+  width: 30%;
+  height: 30%;
+  margin: 2%;
+  float: left; }
+  .recipeItem .recipeThumb {
+    overflow: hidden;
+    position: relative; }
+    .recipeItem .recipeThumb img {
+      width: 100%;
+      height: 100%; }
+    .recipeItem .recipeThumb .info-overlay {
+      position: absolute;
+      color: white;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      text-align: center;
+      vertical-align: middle;
+      -webkit-transform: translateZ(0);
+      transform: translateZ(0);
+      opacity: 0; }
+      .recipeItem .recipeThumb .info-overlay:before {
+        content: "";
+        position: absolute;
+        z-index: -1;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(170, 131, 131, 0.77);
+        border-radius: 100%;
+        transform: scale(0);
+        transition-property: transform;
+        transition-duration: 0.3s;
+        transition-timing-function: ease-out;
+        -webkit-transform: scale(0);
+        -webkit-transition-property: transform;
+        -webkit-transition-duration: 0.3s;
+        -webkit-transition-timing-function: ease-out; }
+      .recipeItem .recipeThumb .info-overlay:hover {
+        opacity: 1;
+        border-radius: 0px;
+        -webkit-transform: scale(1);
+        transform: scale(1); }
+      .recipeItem .recipeThumb .info-overlay:hover:before {
+        -webkit-transform: scale(1.5);
+        transform: scale(1.5); }
+  .recipeItem .recipeInfo {
+    background-color: white;
+    text-align: center;
+    padding: 5%; }
+    .recipeItem .recipeInfo h4 {
+      font-weight: 400;
+      margin-top: 5px;
+      margin-bottom: 15px; }
+    .recipeItem .recipeInfo .rUserImg {
+      width: 12%;
+      height: 12%;
+      border-radius: 100%;
+      vertical-align: middle;
+      margin-right: 5%; }
+    .recipeItem .recipeInfo a {
+      font-size: 14px; }

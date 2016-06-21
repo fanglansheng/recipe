@@ -32,21 +32,44 @@ var PostList = React.createClass({
     });
   },
 
-  likeHandler: function(workid){
-    $.get("/like_work/"+workid)
-    .done(function(data) {
-      if(data.type=="success"){
-        itself.state.allWork.forEach(function(c,i,input){
-          if(c.id == workid){
-            input[i]=data.work;
-            itself.setState({ allWork: input });
-          }
-        });
-      }
-      else if(data.type=="errors"){
+  likeHandler: function(work){
+    var workid = work.id;
+    var itself = this;
+    console.log(work);
+    if(!work.hasLiked){
+      $.get("/like_work/"+workid)
+      .done(function(data) {
+        if(data.type=="success"){
+          itself.state.allWork.forEach(function(c,i,input){
+            if(c.id == workid){
+              input[i]=data.work;
+              itself.setState({ allWork: input });
+            }
+            console.log(workid);
+          });
+        }
+        else if(data.type=="errors"){
 
-      }
-    });
+        }
+      });
+    }
+    else{
+      $.get("/unlike_work/"+workid)
+      .done(function(data) {
+        if(data.type=="success"){
+          itself.state.allWork.forEach(function(c,i,input){
+            if(c.id == workid){
+              input[i]=data.work;
+              itself.setState({ allWork: input });
+            }
+            console.log(workid);
+          });
+        }
+        else if(data.type=="errors"){
+
+        }
+      });
+    }
   },
 
   loadPostsFromServer: function(){
@@ -111,15 +134,19 @@ var PostList = React.createClass({
   render: function(){
     var itself = this;
     var allPosts = this.state.allWork.map(function(post, i){
-      var workBox = post.deleted ? null : (
-        <WorkBox work={post}
-                 onDelete={itself.deleteWork.bind(itself, post.id)}/>
-      );
-      return( <div key={i}> { workBox } </div> );
+      // var workBox = ;
+      return( post.deleted ? null : (
+        <WorkBox key={i} work={post}
+                 onDelete={itself.deleteWork.bind(itself, post.id)}
+                 onLike={itself.likeHandler.bind(itself, post)}/>
+      ));
     });
 
     return (
-      <div> 
+      <div>
+        <div className="createBtn">
+          <a href={"/create_recipe"}>+ Create Recipe</a>
+        </div>
         <WorkForm updateList={this.updateWorkList}/>
         <div className="postList">
         { allPosts }
@@ -135,11 +162,6 @@ var WorkBox = React.createClass({
     this.setState({showCmt:!isShow});
   },
 
-  onLike : function(){
-    var isLiked = this.state.liked;
-    this.setState({liked:!isLiked});
-  },
-
   getInitialState: function(){
     return {liked:false, showCmt:false};
   },
@@ -148,27 +170,30 @@ var WorkBox = React.createClass({
     var work = this.props.work;
     var commentBox = this.state.showCmt ? 
       <CommentList isShow={this.state.showCmt} workid={work.id}/>:null;
+    
     return (
       <div className="workBox">
         <div className="workItem">
           <div className="workUserBox">
             <img className="uImgCircleSmall"
               src={"/user_photo/"+work.user.username}/>
-            <a href={"/profile/"+work.user.id}>{work.user.username}</a>
+            <a className="username" href={"/profile/"+work.user.id}>
+              {work.user.username}
+            </a>
             <button className="delWorkBtn" onClick={this.props.onDelete}></button>
           </div>
 
           <div>
-            <p className="bio">{work.bio}</p>
+            <p>{work.bio}</p>
             <img className="workImg" src={"/get_work_img/"+work.id}/>
           </div>
 
-          <div>
+          <div className="workBtnBox">
             <button className="likeBtn" onClick={this.props.onLike}>
-              <i className="material-icons">thumb_up</i>
+              <i className="fa fa-thumbs-o-up fa-2x"> {work.likes}</i>
             </button>
             <button className="btn" onClick={this.onShowComment}>
-              <i className="material-icons">comment</i>
+              <i className="fa fa-comment fa-2x"></i>
             </button>
           </div>
         </div>
@@ -198,10 +223,12 @@ var WorkForm = React.createClass({
     formData.append("csrfmiddlewaretoken", $('input[name=csrfmiddlewaretoken]').val());
 
     this.setState({"workbio":""});
-    var self = this;
+    this.refs.workfile.value="";
+
+    var itself = this;
     // make ajax request
     $.ajax({ 
-        type: 'POST', 
+        type: "POST", 
         url: '/post_work', 
         data: formData,
         processData: false,  // tell jQuery not to process the data
@@ -209,14 +236,14 @@ var WorkForm = React.createClass({
     })
     .done(function(data) {
         if(data.type == "error"){
-            errMsg = "";
+            var errMsg = "";
             $.each(data.errors,function(i,el){
                 errMsg +=el[0].message;
                 console.log(errMsg);
             });
         }
         else{
-            self.props.updateList();
+            itself.props.updateList();
         }
     });
   },

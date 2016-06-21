@@ -1,0 +1,251 @@
+0 info it worked if it ends with ok
+1 verbose cli [ '/usr/local/bin/node',
+1 verbose cli   '/usr/local/bin/npm',
+1 verbose cli   'install',
+1 verbose cli   '-g',
+1 verbose cli   'yo' ]
+2 info using npm@2.14.4
+3 info using node@v4.1.1
+4 verbose install initial load of /usr/local/lib/package.json
+5 verbose readDependencies loading dependencies from /usr/local/lib/package.json
+6 silly cache add args [ 'yo', null ]
+7 verbose cache add spec yo
+8 silly cache add parsed spec Result {
+8 silly cache add   raw: 'yo',
+8 silly cache add   scope: null,
+8 silly cache add   name: 'yo',
+8 silly cache add   rawSpec: '',
+8 silly cache add   spec: '*',
+8 silly cache add   type: 'range' }
+9 silly addNamed yo@*
+10 verbose addNamed "*" is a valid semver range for yo
+11 silly addNameRange { name: 'yo', range: '*', hasData: false }
+12 silly mapToRegistry name yo
+13 silly mapToRegistry using default registry
+14 silly mapToRegistry registry https://registry.npmjs.org/
+15 silly mapToRegistry uri https://registry.npmjs.org/yo
+16 verbose addNameRange registry:https://registry.npmjs.org/yo not in flight; fetching
+17 verbose request uri https://registry.npmjs.org/yo
+18 verbose request no auth needed
+19 info attempt registry request try #1 at 9:12:13 PM
+20 verbose request id 47139fdbc5fb490d
+21 http request GET https://registry.npmjs.org/yo
+22 http 200 https://registry.npmjs.org/yo
+23 silly get cb [ 200,
+23 silly get   { server: 'CouchDB/1.5.0 (Erlang OTP/R16B03)',
+23 silly get     etag: '"EU7MW72TJTRBJG2C2D6SBPJ0M"',
+23 silly get     'content-type': 'application/json',
+23 silly get     'content-encoding': 'gzip',
+23 silly get     'cache-control': 'max-age=300',
+23 silly get     'content-length': '10817',
+23 silly get     'accept-ranges': 'bytes',
+23 silly get     date: 'Thu, 16 Jun 2016 04:12:13 GMT',
+23 silly get     via: '1.1 varnish',
+23 silly get     age: '216',
+23 silly get     connection: 'keep-alive',
+23 silly get     'x-served-by': 'cache-sjc3123-SJC',
+23 silly get     'x-cache': 'HIT',
+23 silly get     'x-cache-hits': '1',
+23 silly get     'x-timer': 'S1466050333.137193,VS0,VE0',
+23 silly get     vary: 'Accept-Encoding' } ]
+24 verbose get saving yo to /Users/zhouxiaochuan/.npm/registry.npmjs.org/yo/.cache.json
+25 silly addNameRange number 2 { name: 'yo', range: '*', hasData: true }
+26 silly addNameRange versions [ 'yo',
+26 silly addNameRange   [ '1.1.0',
+26 silly addNameRange     '1.1.1',
+26 silly addNameRange     '1.1.2',
+26 silly addNameRange     '1.2.0',
+26 silly addNameRange     '1.2.1',
+26 silly addNameRange     '1.3.0',
+26 silly addNameRange     '1.3.2',
+26 silly addNameRange     '1.3.3',
+26 silly addNameRange     '1.4.1',
+26 silly addNameRange     '1.4.2',
+26 silly addNameRange     '1.4.4',
+26 silly addNameRange     '1.4.5',
+26 silly addNameRange     '1.4.6',
+26 silly addNameRange     '1.4.7',
+26 silly addNameRange     '1.4.8',
+26 silly addNameRange     '1.5.0',
+26 silly addNameRange     '1.5.1',
+26 silly addNameRange     '1.6.0',
+26 silly addNameRange     '1.7.0',
+26 silly addNameRange     '1.7.1',
+26 silly addNameRange     '1.8.1',
+26 silly addNameRange     '1.8.2',
+26 silly addNameRange     '1.8.3',
+26 silly addNameRange     '1.8.4' ] ]
+27 silly addNamed yo@1.8.4
+28 verbose addNamed "1.8.4" is a plain semver version for yo
+29 silly mapToRegistry name yo
+30 silly mapToRegistry using default registry
+31 silly mapToRegistry registry https://registry.npmjs.org/
+32 silly mapToRegistry uri https://registry.npmjs.org/yo
+33 verbose addRemoteTarball https://registry.npmjs.org/yo/-/yo-1.8.4.tgz not in flight; adding
+34 verbose addRemoteTarball [ 'https://registry.npmjs.org/yo/-/yo-1.8.4.tgz',
+34 verbose addRemoteTarball   'c99e33bfd8b59153c3cf060e52aa6fcdd2bc2957' ]
+35 info retry fetch attempt 1 at 9:12:13 PM
+36 info attempt registry request try #1 at 9:12:13 PM
+37 http fetch GET https://registry.npmjs.org/yo/-/yo-1.8.4.tgz
+38 http fetch 200 https://registry.npmjs.org/yo/-/yo-1.8.4.tgz
+39 silly fetchAndShaCheck shasum c99e33bfd8b59153c3cf060e52aa6fcdd2bc2957
+40 verbose addTmpTarball /var/folders/t2/5rf8tw655dv3vwdkgqc_60480000gn/T/npm-3718-95f97805/registry.npmjs.org/yo/-/yo-1.8.4.tgz not in flight; adding
+41 verbose addTmpTarball already have metadata; skipping unpack for yo@1.8.4
+42 silly cache afterAdd yo@1.8.4
+43 verbose afterAdd /Users/zhouxiaochuan/.npm/yo/1.8.4/package/package.json not in flight; writing
+44 verbose afterAdd /Users/zhouxiaochuan/.npm/yo/1.8.4/package/package.json written
+45 silly install resolved [ { name: 'yo',
+45 silly install resolved     version: '1.8.4',
+45 silly install resolved     description: 'CLI tool for running Yeoman generators',
+45 silly install resolved     homepage: 'http://yeoman.io',
+45 silly install resolved     author: { name: 'Yeoman' },
+45 silly install resolved     files: [ 'lib' ],
+45 silly install resolved     main: 'lib',
+45 silly install resolved     keywords:
+45 silly install resolved      [ 'cli-app',
+45 silly install resolved        'cli',
+45 silly install resolved        'front-end',
+45 silly install resolved        'development',
+45 silly install resolved        'dev',
+45 silly install resolved        'build',
+45 silly install resolved        'web',
+45 silly install resolved        'tool',
+45 silly install resolved        'scaffold',
+45 silly install resolved        'stack',
+45 silly install resolved        'yeoman',
+45 silly install resolved        'generator',
+45 silly install resolved        'generate',
+45 silly install resolved        'app',
+45 silly install resolved        'boilerplate' ],
+45 silly install resolved     license: 'BSD-2-Clause',
+45 silly install resolved     repository: { type: 'git', url: 'git+https://github.com/yeoman/yo.git' },
+45 silly install resolved     bin: { yo: 'lib/cli.js', 'yo-complete': 'lib/completion/index.js' },
+45 silly install resolved     engines: { node: '>=0.12.0' },
+45 silly install resolved     scripts:
+45 silly install resolved      { test: 'gulp',
+45 silly install resolved        postinstall: 'yodoctor',
+45 silly install resolved        postupdate: 'yodoctor',
+45 silly install resolved        prepublish: 'gulp prepublish' },
+45 silly install resolved     dependencies:
+45 silly install resolved      { async: '^1.0.0',
+45 silly install resolved        chalk: '^1.0.0',
+45 silly install resolved        'cli-list': '^0.1.1',
+45 silly install resolved        configstore: '^1.0.0',
+45 silly install resolved        'cross-spawn': '^3.0.1',
+45 silly install resolved        figures: '^1.3.5',
+45 silly install resolved        fullname: '^2.0.0',
+45 silly install resolved        got: '^5.0.0',
+45 silly install resolved        'humanize-string': '^1.0.0',
+45 silly install resolved        inquirer: '^0.11.0',
+45 silly install resolved        insight: '^0.7.0',
+45 silly install resolved        lodash: '^3.2.0',
+45 silly install resolved        meow: '^3.0.0',
+45 silly install resolved        'npm-keyword': '^4.1.0',
+45 silly install resolved        opn: '^3.0.2',
+45 silly install resolved        'package-json': '^2.1.0',
+45 silly install resolved        'parse-help': '^0.1.1',
+45 silly install resolved        'read-pkg-up': '^1.0.1',
+45 silly install resolved        repeating: '^2.0.0',
+45 silly install resolved        'root-check': '^1.0.0',
+45 silly install resolved        'sort-on': '^1.0.0',
+45 silly install resolved        'string-length': '^1.0.0',
+45 silly install resolved        tabtab: '^1.3.0',
+45 silly install resolved        titleize: '^1.0.0',
+45 silly install resolved        'update-notifier': '^0.6.0',
+45 silly install resolved        'user-home': '^2.0.0',
+45 silly install resolved        'yeoman-character': '^1.0.0',
+45 silly install resolved        'yeoman-doctor': '^2.0.0',
+45 silly install resolved        'yeoman-environment': '^1.6.1',
+45 silly install resolved        yosay: '^1.0.0' },
+45 silly install resolved     devDependencies:
+45 silly install resolved      { gulp: '^3.6.0',
+45 silly install resolved        'gulp-coveralls': '^0.1.0',
+45 silly install resolved        'gulp-eslint': '^2.0.0',
+45 silly install resolved        'gulp-exclude-gitignore': '^1.0.0',
+45 silly install resolved        'gulp-istanbul': '^0.10.4',
+45 silly install resolved        'gulp-mocha': '^2.0.0',
+45 silly install resolved        'gulp-nsp': '^2.1.0',
+45 silly install resolved        'gulp-plumber': '^1.0.0',
+45 silly install resolved        mocha: '^2.1.0',
+45 silly install resolved        mockery: '^1.4.0',
+45 silly install resolved        nock: '^8.0.0',
+45 silly install resolved        nsp: '^2.2.0',
+45 silly install resolved        proxyquire: '^1.0.1',
+45 silly install resolved        'registry-url': '^3.0.0',
+45 silly install resolved        sinon: '^1.12.1' },
+45 silly install resolved     tabtab: { yo: [Object] },
+45 silly install resolved     gitHead: '8a54b6e3fb25097916f45753a8f0a9edb8cbeb23',
+45 silly install resolved     bugs: { url: 'https://github.com/yeoman/yo/issues' },
+45 silly install resolved     _id: 'yo@1.8.4',
+45 silly install resolved     _shasum: 'c99e33bfd8b59153c3cf060e52aa6fcdd2bc2957',
+45 silly install resolved     _from: 'yo@*',
+45 silly install resolved     _npmVersion: '3.5.3',
+45 silly install resolved     _nodeVersion: '5.11.1',
+45 silly install resolved     _npmUser: { name: 'sboudrias', email: 'admin@simonboudrias.com' },
+45 silly install resolved     dist:
+45 silly install resolved      { shasum: 'c99e33bfd8b59153c3cf060e52aa6fcdd2bc2957',
+45 silly install resolved        tarball: 'https://registry.npmjs.org/yo/-/yo-1.8.4.tgz' },
+45 silly install resolved     maintainers:
+45 silly install resolved      [ [Object],
+45 silly install resolved        [Object],
+45 silly install resolved        [Object],
+45 silly install resolved        [Object],
+45 silly install resolved        [Object],
+45 silly install resolved        [Object],
+45 silly install resolved        [Object] ],
+45 silly install resolved     _npmOperationalInternal:
+45 silly install resolved      { host: 'packages-12-west.internal.npmjs.com',
+45 silly install resolved        tmp: 'tmp/yo-1.8.4.tgz_1464718249989_0.8592824542429298' },
+45 silly install resolved     directories: {},
+45 silly install resolved     _resolved: 'https://registry.npmjs.org/yo/-/yo-1.8.4.tgz' } ]
+46 info install yo@1.8.4 into /usr/local/lib
+47 info installOne yo@1.8.4
+48 verbose installOne of yo to /usr/local/lib not in flight; installing
+49 verbose lock using /Users/zhouxiaochuan/.npm/_locks/yo-c80abb7e04f27e35.lock for /usr/local/lib/node_modules/yo
+50 silly install write writing yo 1.8.4 to /usr/local/lib/node_modules/yo
+51 verbose unbuild lib/node_modules/yo
+52 silly gentlyRm /usr/local/lib/node_modules/yo is being purged from base /usr/local
+53 verbose gentlyRm don't care about contents; nuking /usr/local/lib/node_modules/yo
+54 verbose tar unpack /Users/zhouxiaochuan/.npm/yo/1.8.4/package.tgz
+55 verbose tar unpacking to /usr/local/lib/node_modules/yo
+56 silly gentlyRm /usr/local/lib/node_modules/yo is being purged
+57 verbose gentlyRm don't care about contents; nuking /usr/local/lib/node_modules/yo
+58 silly gunzTarPerm modes [ '755', '644' ]
+59 error tar.unpack untar error /Users/zhouxiaochuan/.npm/yo/1.8.4/package.tgz
+60 verbose unlock done using /Users/zhouxiaochuan/.npm/_locks/yo-c80abb7e04f27e35.lock for /usr/local/lib/node_modules/yo
+61 verbose fstream_path /usr/local/lib/node_modules/yo
+62 verbose fstream_type Directory
+63 verbose fstream_class DirWriter
+64 verbose stack Error: EACCES: permission denied, mkdir '/usr/local/lib/node_modules/yo'
+64 verbose stack     at Error (native)
+65 verbose fstream_stack /usr/local/lib/node_modules/npm/node_modules/fstream/lib/dir-writer.js:35:25
+65 verbose fstream_stack /usr/local/lib/node_modules/npm/node_modules/mkdirp/index.js:47:53
+65 verbose fstream_stack FSReqWrap.oncomplete (fs.js:82:15)
+66 verbose cwd /Users/zhouxiaochuan/GitHub/recipe/webapps
+67 error Darwin 14.1.0
+68 error argv "/usr/local/bin/node" "/usr/local/bin/npm" "install" "-g" "yo"
+69 error node v4.1.1
+70 error npm  v2.14.4
+71 error path /usr/local/lib/node_modules/yo
+72 error code EACCES
+73 error errno -13
+74 error syscall mkdir
+75 error Error: EACCES: permission denied, mkdir '/usr/local/lib/node_modules/yo'
+75 error     at Error (native)
+75 error  { [Error: EACCES: permission denied, mkdir '/usr/local/lib/node_modules/yo']
+75 error   errno: -13,
+75 error   code: 'EACCES',
+75 error   syscall: 'mkdir',
+75 error   path: '/usr/local/lib/node_modules/yo',
+75 error   fstream_type: 'Directory',
+75 error   fstream_path: '/usr/local/lib/node_modules/yo',
+75 error   fstream_class: 'DirWriter',
+75 error   fstream_stack:
+75 error    [ '/usr/local/lib/node_modules/npm/node_modules/fstream/lib/dir-writer.js:35:25',
+75 error      '/usr/local/lib/node_modules/npm/node_modules/mkdirp/index.js:47:53',
+75 error      'FSReqWrap.oncomplete (fs.js:82:15)' ] }
+76 error Please try running this command again as root/Administrator.
+77 verbose exit [ -13, true ]
+78 verbose unbuild lib/node_modules/yo
+79 silly gentlyRm /usr/local/lib/node_modules/yo is being purged from base /usr/local
+80 verbose gentlyRm don't care about contents; nuking /usr/local/lib/node_modules/yo

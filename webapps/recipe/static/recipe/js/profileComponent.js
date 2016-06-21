@@ -130,6 +130,7 @@ var ProfileWorkBox = React.createClass({
 var ProfileContentBox = React.createClass({
   loadProfile: function(){
     var itself = this;
+    console.log(userid);
     $.get("/get_user_profile/"+userid)
     .done(function(data) {
       console.log(data);
@@ -157,6 +158,7 @@ var ProfileContentBox = React.createClass({
 
   render: function(){
     var profile = this.state.profile;
+    console.log(profile);
     var profileBox = this.state.profile == null ? null : (
       <div className="profileContentBox">
         <div className="profileTop">
